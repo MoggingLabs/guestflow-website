@@ -1,6 +1,7 @@
 "use client";
 
-import { venueThemes } from "@/content/widget-themes";
+import { venueThemesByLocale } from "@/content/widget-themes";
+import { useLocale } from "@/lib/locale-client";
 import type { VenueThemeId } from "@/types/content";
 import { cn } from "@/lib/utils";
 
@@ -11,13 +12,15 @@ export function ThemeSwitcher({
   active: VenueThemeId;
   onChange: (id: VenueThemeId) => void;
 }) {
+  const themes = venueThemesByLocale[useLocale()];
+
   return (
     <div
       role="tablist"
       aria-label="Venue type"
       className="flex flex-wrap justify-center gap-2"
     >
-      {venueThemes.map((theme) => {
+      {themes.map((theme) => {
         const isActive = theme.id === active;
         return (
           <button

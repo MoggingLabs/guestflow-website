@@ -1,30 +1,30 @@
+import type { Locale } from "@/lib/i18n-shared";
+
 export function cn(
   ...classes: Array<string | false | null | undefined>
 ): string {
   return classes.filter(Boolean).join(" ");
 }
 
-const WEEKDAY_FORMAT = new Intl.DateTimeFormat("en-US", { weekday: "short" });
-const DAY_FORMAT = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-});
-const FULL_FORMAT = new Intl.DateTimeFormat("en-US", {
-  weekday: "long",
-  month: "long",
-  day: "numeric",
-});
+const INTL: Record<Locale, string> = { en: "en-US", pt: "pt-PT" };
 
-export function formatWeekday(date: Date): string {
-  return WEEKDAY_FORMAT.format(date);
+export function formatWeekday(date: Date, locale: Locale = "en"): string {
+  return new Intl.DateTimeFormat(INTL[locale], { weekday: "short" }).format(date);
 }
 
-export function formatDayShort(date: Date): string {
-  return DAY_FORMAT.format(date);
+export function formatDayShort(date: Date, locale: Locale = "en"): string {
+  return new Intl.DateTimeFormat(INTL[locale], {
+    month: "short",
+    day: "numeric",
+  }).format(date);
 }
 
-export function formatDateFull(date: Date): string {
-  return FULL_FORMAT.format(date);
+export function formatDateFull(date: Date, locale: Locale = "en"): string {
+  return new Intl.DateTimeFormat(INTL[locale], {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  }).format(date);
 }
 
 /** Local-timezone YYYY-MM-DD key for a date (avoids UTC off-by-one). */

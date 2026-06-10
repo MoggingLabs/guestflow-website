@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { WG } from "@/components/widget/wgStyles";
 import type { BookingState } from "@/components/widget/useBookingMachine";
+import { widgetUi } from "@/content/widget-ui";
+import { useLocale } from "@/lib/locale-client";
 import type { VenueTheme } from "@/types/content";
 import { formatDateFull } from "@/lib/utils";
 
@@ -23,6 +25,8 @@ export function ConfirmationStep({
   theme: VenueTheme;
   onReset: () => void;
 }) {
+  const locale = useLocale();
+  const ui = widgetUi[locale];
   const date = state.dateKey ? new Date(`${state.dateKey}T12:00:00`) : null;
 
   return (
@@ -42,17 +46,17 @@ export function ConfirmationStep({
         </svg>
       </div>
       <p className="mt-4 font-display text-lg font-medium [color:var(--wg-text)]">
-        Booking confirmed
+        {ui.bookingConfirmed}
       </p>
       <p className={`mt-1 ${WG.hint}`}>
-        Confirmation {confirmationCode(state)} · {theme.venueName}
+        {ui.confirmationWord} {confirmationCode(state)} · {theme.venueName}
       </p>
 
       <dl className="mx-auto mt-5 max-w-xs space-y-2 rounded-md border p-4 text-left text-sm [border-color:var(--wg-line)] [background:var(--wg-surface)]">
         <div className="flex justify-between gap-4">
-          <dt className="[color:var(--wg-muted)]">Date</dt>
+          <dt className="[color:var(--wg-muted)]">{ui.dateWord}</dt>
           <dd className="[color:var(--wg-text)]">
-            {date ? formatDateFull(date) : "—"}
+            {date ? formatDateFull(date, locale) : "—"}
           </dd>
         </div>
         <div className="flex justify-between gap-4">
@@ -60,7 +64,7 @@ export function ConfirmationStep({
           <dd className="[color:var(--wg-text)]">{state.partySize}</dd>
         </div>
         <div className="flex justify-between gap-4">
-          <dt className="[color:var(--wg-muted)]">Time</dt>
+          <dt className="[color:var(--wg-muted)]">{ui.timeWord}</dt>
           <dd className="[color:var(--wg-text)]">{state.time}</dd>
         </div>
       </dl>
@@ -69,15 +73,15 @@ export function ConfirmationStep({
 
       <div className="mt-6 space-y-3">
         <button type="button" onClick={onReset} className={WG.primaryButton}>
-          Make another booking
+          {ui.makeAnother}
         </button>
         <p className={WG.hint}>
-          Want this on your site?{" "}
+          {ui.wantThis}{" "}
           <Link
             href="/book-a-demo"
             className="underline underline-offset-2 [color:var(--wg-accent)]"
           >
-            Book a demo
+            {ui.bookDemoLink}
           </Link>
         </p>
       </div>

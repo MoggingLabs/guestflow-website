@@ -4,28 +4,34 @@ import { Reveal } from "@/components/ui/Reveal";
 import { DemoForm } from "@/components/sections/demo/DemoForm";
 import { FaqSection } from "@/components/sections/shared/FaqSection";
 import { BookingWidget } from "@/components/widget/BookingWidget";
-import { demoPage } from "@/content/demo";
-import { demoFaq } from "@/content/faq";
+import { demoContent } from "@/content/demo";
+import { faqContent } from "@/content/faq";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Book a demo",
-  description: demoPage.subhead,
+  description:
+    "A working session, not a sales pitch. We'll show you the booking flow, the dashboard, and what your branded version would look like.",
 };
 
-export default function BookADemoPage() {
+export default async function BookADemoPage() {
+  const locale = await getLocale();
+  const t = demoContent[locale];
+  const faq = faqContent[locale];
+
   return (
     <>
       <section className="pt-36 pb-20 md:pt-44 md:pb-28">
         <Container>
           <Reveal className="max-w-3xl">
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-amber">
-              {demoPage.eyebrow}
+              {t.eyebrow}
             </p>
             <h1 className="font-display text-4xl font-medium tracking-tight text-cream md:text-5xl text-balance">
-              {demoPage.headline}
+              {t.headline}
             </h1>
             <p className="mt-5 text-base leading-relaxed text-cream-dim md:text-lg">
-              {demoPage.subhead}
+              {t.subhead}
             </p>
           </Reveal>
 
@@ -34,10 +40,10 @@ export default function BookADemoPage() {
             <div className="space-y-12">
               <Reveal>
                 <h2 className="font-display text-xl font-medium text-cream">
-                  {demoPage.expectations.title}
+                  {t.expectations.title}
                 </h2>
                 <ul className="mt-7 space-y-6">
-                  {demoPage.expectations.items.map((item, i) => (
+                  {t.expectations.items.map((item, i) => (
                     <li key={item.title} className="flex gap-4">
                       <span className="font-display text-2xl font-medium text-amber">
                         {String(i + 1).padStart(2, "0")}
@@ -52,19 +58,18 @@ export default function BookADemoPage() {
                   ))}
                 </ul>
                 <p className="mt-8 border-l-2 border-amber-deep pl-4 text-sm text-cream-dim">
-                  {demoPage.reassurance}
+                  {t.reassurance}
                 </p>
               </Reveal>
 
               <Reveal delay={0.1}>
                 <h2 className="font-display text-xl font-medium text-cream">
-                  Try it while you&apos;re here
+                  {t.tryWidget.title}
                 </h2>
                 <p className="mt-2 mb-6 text-sm text-cream-dim">
-                  This is the widget we&apos;ll theme for your venue. Make a
-                  booking, switch the style.
+                  {t.tryWidget.body}
                 </p>
-                <BookingWidget caption="One booking system, styled to match each venue." />
+                <BookingWidget caption={t.tryWidget.caption} />
               </Reveal>
             </div>
 
@@ -78,7 +83,7 @@ export default function BookADemoPage() {
         </Container>
       </section>
 
-      <FaqSection items={demoFaq} title="Before you book" />
+      <FaqSection items={faq.demo} title={faq.demoTitle} />
     </>
   );
 }

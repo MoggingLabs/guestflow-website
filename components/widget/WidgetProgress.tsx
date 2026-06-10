@@ -1,14 +1,9 @@
 "use client";
 
 import type { BookingStep } from "@/components/widget/useBookingMachine";
+import { widgetUi } from "@/content/widget-ui";
+import { useLocale } from "@/lib/locale-client";
 import { cn } from "@/lib/utils";
-
-const STEPS: { id: BookingStep; label: string }[] = [
-  { id: "date", label: "Date" },
-  { id: "party", label: "Party" },
-  { id: "time", label: "Time" },
-  { id: "details", label: "Details" },
-];
 
 const ORDER: Record<BookingStep, number> = {
   date: 0,
@@ -20,11 +15,18 @@ const ORDER: Record<BookingStep, number> = {
 };
 
 export function WidgetProgress({ step }: { step: BookingStep }) {
+  const ui = widgetUi[useLocale()];
+  const steps = [
+    { id: "date", label: ui.progress.date },
+    { id: "party", label: ui.progress.party },
+    { id: "time", label: ui.progress.time },
+    { id: "details", label: ui.progress.details },
+  ];
   const current = ORDER[step];
 
   return (
     <ol aria-label="Booking progress" className="mb-6 flex items-center gap-2">
-      {STEPS.map((s, i) => (
+      {steps.map((s, i) => (
         <li key={s.id} className="flex flex-1 flex-col gap-1.5">
           <span
             className={cn(

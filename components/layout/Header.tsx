@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
-import { navLinks, site } from "@/content/site";
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
+import { siteStrings } from "@/content/site";
+import { useLocale } from "@/lib/locale-client";
 import { cn } from "@/lib/utils";
 
 function subscribeToScroll(callback: () => void) {
@@ -16,6 +18,8 @@ function subscribeToScroll(callback: () => void) {
 export function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = siteStrings[locale];
 
   const scrolled = useSyncExternalStore(
     subscribeToScroll,
@@ -45,8 +49,8 @@ export function Header() {
           <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
+        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+          {t.navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -60,22 +64,20 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Button
-            href={site.cta.primary.href}
-            analyticsLabel="header_book_demo"
-          >
-            {site.cta.primary.label}
+          <LanguageToggle />
+          <Button href={t.cta.primary.href} analyticsLabel="header_book_demo">
+            {t.cta.primary.label}
           </Button>
         </nav>
 
         <div className="flex items-center gap-3 md:hidden">
           <Button
-            href={site.cta.primary.href}
+            href={t.cta.primary.href}
             size="md"
             className="px-4 py-2"
             analyticsLabel="header_book_demo_mobile"
           >
-            Demo
+            {t.navDemoShort}
           </Button>
           <button
             type="button"
@@ -113,7 +115,7 @@ export function Header() {
           className="h-screen border-t border-line bg-ink px-6 pt-6 md:hidden"
         >
           <ul className="space-y-1">
-            {navLinks.map((link) => (
+            {t.navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -125,15 +127,18 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <div className="mt-8">
+          <div className="mt-6">
+            <LanguageToggle />
+          </div>
+          <div className="mt-6">
             <Button
-              href={site.cta.primary.href}
+              href={t.cta.primary.href}
               size="lg"
               className="w-full"
               onClick={() => setOpen(false)}
               analyticsLabel="mobile_nav_book_demo"
             >
-              {site.cta.primary.label}
+              {t.cta.primary.label}
             </Button>
           </div>
         </nav>

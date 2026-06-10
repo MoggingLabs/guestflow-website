@@ -166,20 +166,23 @@ async function rows<T>(query: Promise<unknown> | null): Promise<T[]> {
 /** Pipeline heartbeat: when the most recent real (non-seed) event landed. */
 export async function trackingStatus(): Promise<{
   last_real_event: string | null;
+  mins_ago: number | null;
   real_events_today: number;
 }> {
   const sql = getDb();
-  if (!sql) return { last_real_event: null, real_events_today: 0 };
+  if (!sql) return { last_real_event: null, mins_ago: null, real_events_today: 0 };
   const result = await rows<{
     last_real_event: string | null;
+    mins_ago: number | null;
     real_events_today: number;
   }>(
     sql`select max(ts) as last_real_event,
+               round(extract(epoch from (now() - max(ts))) / 60) as mins_ago,
                count(*) filter (where ts >= current_date) as real_events_today
         from events
         where coalesce(props->>'seed', '') <> 'true'`,
   );
-  return result[0] ?? { last_real_event: null, real_events_today: 0 };
+  return result[0] ?? { last_real_event: null, mins_ago: null, real_events_today: 0 };
 }
 
 export function dailyVisitors(from: Date, to: Date) {

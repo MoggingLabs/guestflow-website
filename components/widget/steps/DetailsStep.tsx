@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { WG } from "@/components/widget/wgStyles";
+import { widgetUi } from "@/content/widget-ui";
+import { useLocale } from "@/lib/locale-client";
 import type { VenueTheme } from "@/types/content";
 
 const SAMPLE_GUEST = { name: "Alex Moreau", email: "alex@example.com" };
@@ -15,6 +17,7 @@ export function DetailsStep({
   onSubmit: (name: string, email: string) => void;
   onBack: () => void;
 }) {
+  const ui = widgetUi[useLocale()];
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -27,25 +30,25 @@ export function DetailsStep({
   return (
     <form onSubmit={handleSubmit} noValidate>
       <button type="button" onClick={onBack} className={WG.backButton}>
-        ← Back
+        {ui.back}
       </button>
       <div className="flex items-baseline justify-between gap-4">
-        <p className={WG.heading}>Your details</p>
-        <p className={WG.hint}>Demo only. Nothing is sent anywhere.</p>
+        <p className={WG.heading}>{ui.yourDetails}</p>
+        <p className={WG.hint}>{ui.demoOnly}</p>
       </div>
       <div className="mt-4 space-y-3">
         <input
           type="text"
-          aria-label="Name"
-          placeholder="Name"
+          aria-label={ui.namePlaceholder}
+          placeholder={ui.namePlaceholder}
           value={name}
           onChange={(e) => setName(e.target.value)}
           className={WG.input}
         />
         <input
           type="email"
-          aria-label="Email"
-          placeholder="Email"
+          aria-label={ui.emailPlaceholder}
+          placeholder={ui.emailPlaceholder}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={WG.input}
@@ -59,7 +62,7 @@ export function DetailsStep({
         }}
         className="mt-2.5 text-xs underline underline-offset-2 transition-colors [color:var(--wg-muted)] hover:[color:var(--wg-text)]"
       >
-        Use sample guest
+        {ui.useSampleGuest}
       </button>
       <button
         type="submit"

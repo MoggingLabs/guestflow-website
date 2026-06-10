@@ -1,17 +1,20 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
-import { site } from "@/content/site";
+import { homeContent } from "@/content/home";
+import { siteStrings } from "@/content/site";
+import { getLocale } from "@/lib/i18n";
 
 type FooterCtaProps = {
   headline?: string;
   subhead?: string;
 };
 
-export function FooterCta({
-  headline = "Ready to take bookings on your own website?",
-  subhead = "See GuestFlow running on a site like yours. The demo takes 20 minutes, and there's no commitment.",
-}: FooterCtaProps) {
+export async function FooterCta({ headline, subhead }: FooterCtaProps) {
+  const locale = await getLocale();
+  const defaults = homeContent[locale].footerCta;
+  const cta = siteStrings[locale].cta.primary;
+
   return (
     <section className="relative overflow-hidden border-t border-line">
       <div
@@ -21,18 +24,14 @@ export function FooterCta({
       <Container className="relative py-24 text-center md:py-32">
         <Reveal>
           <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight text-cream md:text-5xl text-balance">
-            {headline}
+            {headline ?? defaults.headline}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-base text-cream-dim md:text-lg">
-            {subhead}
+            {subhead ?? defaults.subhead}
           </p>
           <div className="mt-9">
-            <Button
-              href={site.cta.primary.href}
-              size="lg"
-              analyticsLabel="footer_cta_book_demo"
-            >
-              {site.cta.primary.label}
+            <Button href={cta.href} size="lg" analyticsLabel="footer_cta_book_demo">
+              {cta.label}
             </Button>
           </div>
         </Reveal>

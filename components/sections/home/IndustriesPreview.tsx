@@ -3,18 +3,23 @@ import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { industriesPreview } from "@/content/home";
-import { industries } from "@/content/industries";
+import { homeContent } from "@/content/home";
+import { industriesContent } from "@/content/industries";
+import { getLocale } from "@/lib/i18n";
 
-export function IndustriesPreview() {
+export async function IndustriesPreview() {
+  const locale = await getLocale();
+  const t = homeContent[locale];
+  const industries = industriesContent[locale].industries;
+
   return (
     <section className="border-t border-line py-24 md:py-36">
       <Container>
         <Reveal>
           <SectionHeading
-            eyebrow="Industries"
-            title={industriesPreview.title}
-            subhead={industriesPreview.subhead}
+            eyebrow={t.industriesEyebrow}
+            title={t.industriesPreview.title}
+            subhead={t.industriesPreview.subhead}
           />
         </Reveal>
         <Reveal stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -36,7 +41,7 @@ export function IndustriesPreview() {
               {/* mt-auto pins the link to the bottom-left of every card,
                   regardless of how long the blurb above it runs. */}
               <span className="mt-auto pt-6 text-sm text-amber transition-colors group-hover:text-amber-bright">
-                Explore →
+                {t.industriesPreview.explore}
               </span>
             </Link>
           ))}

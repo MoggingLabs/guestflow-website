@@ -2,14 +2,17 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
-import { features } from "@/content/product";
+import { productContent } from "@/content/product";
+import { getLocale } from "@/lib/i18n";
 
-export function FeatureGrid() {
+export async function FeatureGrid() {
+  const t = productContent[await getLocale()];
+
   return (
     <section className="border-t border-line py-24 md:py-36">
       <Container>
         <Reveal stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
+          {t.features.map((feature) => (
             <Card key={feature.title}>
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-amber-deep/50 bg-amber/10 text-amber">
                 <Icon name={feature.icon} className="h-5 w-5" />

@@ -1,14 +1,19 @@
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
-import { builtFor } from "@/content/home";
-import { industries } from "@/content/industries";
+import { homeContent } from "@/content/home";
+import { industriesContent } from "@/content/industries";
+import { getLocale } from "@/lib/i18n";
 
 /**
  * Honest social proof for a pre-customer product: positioning plus
  * credibility transfer from the studio behind it. No fake logos.
  */
-export function BuiltForStrip() {
+export async function BuiltForStrip() {
+  const locale = await getLocale();
+  const t = homeContent[locale].builtFor;
+  const industries = industriesContent[locale].industries;
+
   return (
     <section className="border-t border-line bg-surface/40 py-20 md:py-24">
       <Container className="text-center">
@@ -21,10 +26,10 @@ export function BuiltForStrip() {
             ))}
           </div>
           <p className="mx-auto mt-6 max-w-xl font-display text-xl text-cream text-balance">
-            {builtFor.line}
+            {t.line}
           </p>
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-cream-dim">
-            {builtFor.credibility}
+            {t.credibility}
           </p>
         </Reveal>
       </Container>

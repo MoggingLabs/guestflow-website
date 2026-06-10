@@ -3,13 +3,17 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { billingToggle, tiers } from "@/content/pricing";
-import { site } from "@/content/site";
+import { pricingContent } from "@/content/pricing";
+import { siteStrings } from "@/content/site";
+import { useLocale } from "@/lib/locale-client";
 import { cn } from "@/lib/utils";
 
 const ANNUAL_FACTOR = 2 / 3; // annual billing takes a third off
 
 export function PricingTiers() {
+  const locale = useLocale();
+  const t = pricingContent[locale];
+  const cta = siteStrings[locale].cta.primary;
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
   const annual = billing === "annual";
 
@@ -36,17 +40,17 @@ export function PricingTiers() {
               )}
             >
               {option === "monthly" ? (
-                billingToggle.monthlyLabel
+                t.tierUi.monthly
               ) : (
                 <>
-                  {billingToggle.annualLabel}
+                  {t.tierUi.annual}
                   <span
                     className={cn(
                       "ml-1.5 text-xs",
                       billing === "annual" ? "text-ink/70" : "text-amber",
                     )}
                   >
-                    {billingToggle.annualBadge}
+                    {t.tierUi.annualBadge}
                   </span>
                 </>
               )}
@@ -56,7 +60,7 @@ export function PricingTiers() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
-        {tiers.map((tier) => {
+        {t.tiers.map((tier) => {
           const monthly = tier.monthlyEur;
           const shown =
             monthly === null
@@ -77,29 +81,29 @@ export function PricingTiers() {
                 <h2 className="font-display text-xl font-medium text-cream">
                   {tier.name}
                 </h2>
-                {tier.featured && <Badge>Most popular</Badge>}
+                {tier.featured && <Badge>{t.tierUi.mostPopular}</Badge>}
               </div>
 
               {/* Price block: fixed height across all three cards */}
               <div className="mt-5 min-h-16">
                 {shown === null ? (
                   <p className="font-display text-3xl font-medium text-cream">
-                    Let&apos;s talk
+                    {t.tierUi.letsTalk}
                   </p>
                 ) : (
                   <>
                     <p className="font-display text-3xl font-medium text-cream">
-                      from €{shown}/mo
+                      {t.tierUi.fromPerMonth(shown)}
                     </p>
                     <p className="mt-1 text-xs text-cream-faint">
                       {annual ? (
                         <>
-                          {billingToggle.annualNote} ·{" "}
-                          <s className="text-cream-faint/70">€{monthly}/mo</s>{" "}
-                          monthly
+                          {t.tierUi.billedAnnually} ·{" "}
+                          <s className="text-cream-faint/70">€{monthly}</s>{" "}
+                          {t.tierUi.monthlyWord}
                         </>
                       ) : (
-                        <>or €{Math.round(monthly! * ANNUAL_FACTOR)}/mo billed annually</>
+                        <>{t.tierUi.orAnnually(Math.round(monthly! * ANNUAL_FACTOR))}</>
                       )}
                     </p>
                   </>
@@ -138,12 +142,12 @@ export function PricingTiers() {
               {/* Button pinned to the bottom of every card */}
               <div className="mt-auto pt-8">
                 <Button
-                  href={site.cta.primary.href}
+                  href={cta.href}
                   variant={tier.featured ? "primary" : "secondary"}
                   className="h-11 w-full"
                   analyticsLabel={`pricing_${tier.name.toLowerCase()}_${billing}`}
                 >
-                  {site.cta.primary.label}
+                  {cta.label}
                 </Button>
               </div>
             </div>

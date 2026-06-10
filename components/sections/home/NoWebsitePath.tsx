@@ -4,22 +4,22 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
-import { noWebsite } from "@/content/home";
-import { site } from "@/content/site";
+import { homeContent } from "@/content/home";
+import { siteStrings } from "@/content/site";
+import { getLocale } from "@/lib/i18n";
 
-export function NoWebsitePath() {
+export async function NoWebsitePath() {
+  const locale = await getLocale();
+  const t = homeContent[locale].noWebsite;
+
   return (
     <section className="border-t border-line py-24 md:py-36">
       <Container>
         <Reveal>
-          <SectionHeading
-            eyebrow={noWebsite.eyebrow}
-            title={noWebsite.title}
-            subhead={noWebsite.subhead}
-          />
+          <SectionHeading eyebrow={t.eyebrow} title={t.title} subhead={t.subhead} />
         </Reveal>
         <Reveal stagger className="mx-auto mt-14 grid max-w-4xl gap-5 md:grid-cols-2">
-          {noWebsite.paths.map((path) => (
+          {t.paths.map((path) => (
             <Card key={path.title}>
               <Badge>{path.badge}</Badge>
               <h3 className="mt-4 font-display text-lg font-medium text-cream">
@@ -33,11 +33,11 @@ export function NoWebsitePath() {
         </Reveal>
         <Reveal className="mt-10 text-center">
           <Button
-            href={site.cta.primary.href}
+            href={siteStrings[locale].cta.primary.href}
             variant="secondary"
             analyticsLabel="no_website_book_demo"
           >
-            Not sure where you fit? Let&apos;s talk it through
+            {t.ctaLine}
           </Button>
         </Reveal>
       </Container>

@@ -1,6 +1,8 @@
 "use client";
 
 import { WG } from "@/components/widget/wgStyles";
+import { widgetUi } from "@/content/widget-ui";
+import { useLocale } from "@/lib/locale-client";
 import { formatDayShort, formatWeekday, toDateKey } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
@@ -13,12 +15,15 @@ export function DateStep({
   selected: string | null;
   onSelect: (dateKey: string) => void;
 }) {
+  const locale = useLocale();
+  const ui = widgetUi[locale];
+
   return (
     <div>
-      <p className={WG.heading}>Choose a date</p>
+      <p className={WG.heading}>{ui.chooseDate}</p>
       <div
         role="listbox"
-        aria-label="Available dates"
+        aria-label={ui.chooseDate}
         className="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-7"
       >
         {dates.map((date) => {
@@ -42,10 +47,10 @@ export function DateStep({
                   !isSelected && "[color:var(--wg-muted)]",
                 )}
               >
-                {formatWeekday(date)}
+                {formatWeekday(date, locale)}
               </span>
               <span className="whitespace-nowrap text-sm font-medium">
-                {formatDayShort(date)}
+                {formatDayShort(date, locale)}
               </span>
             </button>
           );

@@ -5,7 +5,8 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { aboutHero, principles, story } from "@/content/about";
+import { aboutContent } from "@/content/about";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "About",
@@ -13,13 +14,15 @@ export const metadata: Metadata = {
     "GuestFlow is built by MoggingLabs, a studio with years of experience crafting high-converting hospitality websites.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = aboutContent[await getLocale()];
+
   return (
     <>
       <PageHero
-        eyebrow={aboutHero.eyebrow}
-        headline={aboutHero.headline}
-        subhead={aboutHero.subhead}
+        eyebrow={t.hero.eyebrow}
+        headline={t.hero.headline}
+        subhead={t.hero.subhead}
         showCta={false}
       />
 
@@ -27,10 +30,10 @@ export default function AboutPage() {
         <Container className="max-w-3xl">
           <Reveal>
             <h2 className="font-display text-3xl font-medium tracking-tight text-cream">
-              {story.title}
+              {t.story.title}
             </h2>
             <div className="mt-7 space-y-5">
-              {story.paragraphs.map((paragraph) => (
+              {t.story.paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 32)}
                   className="text-base leading-relaxed text-cream-dim"
@@ -46,10 +49,13 @@ export default function AboutPage() {
       <section className="border-t border-line py-24 md:py-32">
         <Container>
           <Reveal>
-            <SectionHeading eyebrow="Principles" title={principles.title} />
+            <SectionHeading
+              eyebrow={t.principles.eyebrow}
+              title={t.principles.title}
+            />
           </Reveal>
           <Reveal stagger className="mt-14 grid gap-5 md:grid-cols-3">
-            {principles.items.map((item) => (
+            {t.principles.items.map((item) => (
               <Card key={item.title}>
                 <h3 className="font-display text-lg font-medium text-cream">
                   {item.title}

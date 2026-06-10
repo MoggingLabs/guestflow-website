@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { formStrings } from "@/content/form";
+import { useLocale } from "@/lib/locale-client";
 
 export function DemoFormSuccess() {
+  const t = formStrings[useLocale()].success;
+
   return (
     <div
       role="status"
@@ -21,19 +27,18 @@ export function DemoFormSuccess() {
         </svg>
       </div>
       <h3 className="mt-5 font-display text-2xl font-medium text-cream">
-        Request received
+        {t.title}
       </h3>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-cream-dim">
-        We&apos;ll confirm your demo slot within one business day. Check your
-        inbox for a confirmation email.
+        {t.body}
       </p>
       <p className="mt-6 text-sm text-cream-faint">
-        Meanwhile,{" "}
+        {t.meanwhile}{" "}
         <Link
           href="/#live-demo"
           className="text-amber underline underline-offset-2 hover:text-amber-bright"
         >
-          try the live booking demo
+          {t.tryDemo}
         </Link>
         .
       </p>

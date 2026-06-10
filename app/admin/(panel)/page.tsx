@@ -41,11 +41,8 @@ export default async function AdminOverviewPage({
       trackingStatus(),
     ]);
 
-  const lastRealMins = tracking.last_real_event
-    ? Math.round(
-        (Date.now() - new Date(tracking.last_real_event).getTime()) / 60000,
-      )
-    : null;
+  const lastRealMins =
+    tracking.mins_ago === null ? null : Number(tracking.mins_ago);
   const trackingLive = lastRealMins !== null && lastRealMins < 60;
 
   const totalVisitors = daily.reduce((sum, d) => sum + Number(d.visitors), 0);

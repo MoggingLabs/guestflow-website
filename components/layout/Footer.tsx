@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
-import { footerColumns, site } from "@/content/site";
+import { site, siteStrings } from "@/content/site";
+import { getLocale } from "@/lib/i18n";
 
-export function Footer() {
+export async function Footer() {
+  const t = siteStrings[await getLocale()];
+
   return (
     <footer className="border-t border-line bg-surface/40">
       <Container className="py-16">
@@ -13,12 +16,11 @@ export function Footer() {
               <Logo />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream-faint">
-              White-label online booking for restaurants, hotels, spas, and
-              experiences.
+              {t.footerBlurb}
             </p>
           </div>
 
-          {footerColumns.map((col) => (
+          {t.footerColumns.map((col) => (
             <nav key={col.heading} aria-label={col.heading}>
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-cream-faint">
                 {col.heading}
@@ -41,8 +43,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-line pt-7 text-xs text-cream-faint md:flex-row md:items-center md:justify-between">
           <p>
-            © {new Date().getFullYear()} {site.name}, a {site.company}{" "}
-            product.
+            © {new Date().getFullYear()} {site.name}, {t.footerProductOf}.
           </p>
           <a
             href={`mailto:${site.email}`}

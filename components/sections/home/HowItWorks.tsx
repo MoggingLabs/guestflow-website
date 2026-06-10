@@ -1,21 +1,24 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { howItWorks } from "@/content/home";
+import { homeContent } from "@/content/home";
+import { getLocale } from "@/lib/i18n";
 
-export function HowItWorks() {
+export async function HowItWorks() {
+  const t = homeContent[await getLocale()];
+
   return (
     <section className="border-t border-line py-24 md:py-36">
       <Container>
         <Reveal>
           <SectionHeading
-            eyebrow="How it works"
-            title={howItWorks.title}
-            subhead="You bring the venue, and we take care of the rest, from design to installation."
+            eyebrow={t.howItWorksEyebrow}
+            title={t.howItWorks.title}
+            subhead={t.howItWorks.subhead}
           />
         </Reveal>
         <Reveal stagger className="mt-14 grid gap-10 md:grid-cols-3">
-          {howItWorks.steps.map((step, i) => (
+          {t.howItWorks.steps.map((step, i) => (
             <div key={step.title}>
               <span className="font-display text-4xl font-medium text-amber">
                 {String(i + 1).padStart(2, "0")}

@@ -11,9 +11,20 @@ export const metadata: Metadata = {
 
 const UL = "list-disc space-y-1.5 pl-5";
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const { getLocale } = await import("@/lib/i18n");
+  const locale = await getLocale();
+
   return (
     <LegalLayout title="Privacy policy" updated="June 10, 2026">
+      {locale === "pt" && (
+        <p className="rounded-md border border-amber-deep/50 bg-amber/10 px-4 py-3 text-xs leading-relaxed text-amber">
+          Este documento legal é disponibilizado em inglês. Em caso de dúvida
+          ou conflito, prevalece a versão inglesa. Se precisar de
+          esclarecimentos em português, escreva-nos e teremos todo o gosto em
+          ajudar.
+        </p>
+      )}
       <h2>1. Who we are</h2>
       <p>
         GuestFlow is a service operated by [LEGAL ENTITY NAME], a company

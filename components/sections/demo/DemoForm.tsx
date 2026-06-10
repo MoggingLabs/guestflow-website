@@ -10,7 +10,9 @@ import {
   demoSlots,
   webPresences,
 } from "@/lib/validations";
+import { formStrings } from "@/content/form";
 import { setFormTelemetry, track } from "@/lib/analytics";
+import { useLocale } from "@/lib/locale-client";
 import { cn, formatDayShort, formatWeekday, toDateKey } from "@/lib/utils";
 import { DemoFormSuccess } from "./DemoFormSuccess";
 
@@ -28,13 +30,14 @@ function upcomingWeekdays(count = 10): Date[] {
 
 type FieldErrors = Partial<Record<string, string>>;
 
-const PILL_BASE =
-  "rounded-md border px-3 py-2 text-xs transition-colors";
+const PILL_BASE = "rounded-md border px-3 py-2 text-xs transition-colors";
 const PILL_OFF = "border-line text-cream-dim hover:border-amber-deep";
 const PILL_ON = "border-amber bg-amber/10 text-amber";
 
 export function DemoForm() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const f = formStrings[locale];
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -134,11 +137,13 @@ export function DemoForm() {
 
     const parsed = demoRequestSchema.safeParse(payload);
     if (!parsed.success) {
+      // Localized per-field messages (the schema's own messages are EN).
       const fieldErrors: FieldErrors = {};
       for (const issue of parsed.error.issues) {
         const key = issue.path[0];
         if (typeof key === "string" && !fieldErrors[key]) {
-          fieldErrors[key] = issue.message;
+          fieldErrors[key] =
+            f.errors[key as keyof typeof f.errors] ?? issue.message;
         }
       }
       setErrors(fieldErrors);
@@ -158,7 +163,7 @@ export function DemoForm() {
           status: res.status,
           message: data.error ?? "unknown",
         });
-        throw new Error(data.error ?? "Something went wrong.");
+        throw new Error(data.error ?? f.genericError);
       }
       telemetry.current.submitted = true;
       syncTelemetry();
@@ -170,11 +175,7 @@ export function DemoForm() {
         // Network-level failure — the lead never reached the server.
         track("demo_form_error", { status: 0, message: "network" });
       }
-      setServerError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again or email us.",
-      );
+      setServerError(err instanceof Error ? err.message : f.genericError);
     }
   };
 
@@ -194,7 +195,7 @@ export function DemoForm() {
 
       <div className="space-y-5">
         <Input
-          label="Full name"
+          label={f.fullName}
           name="name"
           autoComplete="name"
           value={values.name}
@@ -204,7 +205,7 @@ export function DemoForm() {
           error={errors.name}
         />
         <Input
-          label="Work email"
+          label={f.workEmail}
           name="email"
           type="email"
           autoComplete="email"
@@ -215,7 +216,7 @@ export function DemoForm() {
           error={errors.email}
         />
         <Input
-          label="Business name"
+          label={f.businessName}
           name="businessName"
           autoComplete="organization"
           value={values.businessName}
@@ -225,7 +226,7 @@ export function DemoForm() {
           error={errors.businessName}
         />
         <Select
-          label="Business type"
+          label={f.businessType}
           name="businessType"
           value={values.businessType}
           onChange={(e) => {
@@ -238,20 +239,20 @@ export function DemoForm() {
           error={errors.businessType}
         >
           <option value="" disabled>
-            Choose one…
+            {f.chooseOne}
           </option>
           {businessTypes.map((type) => (
             <option key={type} value={type}>
-              {type}
+              {f.businessTypeLabels[type]}
             </option>
           ))}
         </Select>
       </div>
       {values.businessType === "Other" && (
         <Input
-          label="What kind of business is it?"
+          label={f.whatKind}
           name="businessTypeOther"
-          placeholder="e.g. cooking school, gallery, co-working space…"
+          placeholder={f.whatKindPlaceholder}
           value={values.businessTypeOther}
           onChange={(e) => set("businessTypeOther")(e.target.value)}
           onFocus={handleFieldFocus}
@@ -262,9 +263,9 @@ export function DemoForm() {
 
       <fieldset>
         <legend className="mb-2 flex w-full items-baseline justify-between text-sm font-medium text-cream">
-          Where can guests find you today?
+          {f.whereGuests}
           <span className="text-xs font-normal text-cream-faint">
-            Optional, select all that apply
+            {f.selectAll}
           </span>
         </legend>
         <div className="flex flex-wrap gap-1.5">
@@ -284,7 +285,7 @@ export function DemoForm() {
                 }
                 className={cn(PILL_BASE, selected ? PILL_ON : PILL_OFF)}
               >
-                {presence}
+                {f.webPresenceLabels[presence]}
               </button>
             );
           })}
@@ -293,12 +294,12 @@ export function DemoForm() {
 
       <fieldset>
         <legend className="mb-1 flex w-full items-baseline justify-between text-sm font-medium text-cream">
-          When would you like your demo call?
-          <span className="text-xs font-normal text-cream-faint">Optional</span>
+          {f.whenCall}
+          <span className="text-xs font-normal text-cream-faint">
+            {f.optional}
+          </span>
         </legend>
-        <p className="mb-2.5 text-xs text-cream-faint">
-          Pick a day that suits you. It&apos;s a relaxed 20-minute video call.
-        </p>
+        <p className="mb-2.5 text-xs text-cream-faint">{f.pickDay}</p>
         <div className="flex flex-wrap gap-1.5">
           {dates.map((date) => {
             const key = toDateKey(date);
@@ -319,10 +320,10 @@ export function DemoForm() {
                 )}
               >
                 <span className="text-[10px] uppercase tracking-wider">
-                  {formatWeekday(date)}
+                  {formatWeekday(date, locale)}
                 </span>
                 <span className="whitespace-nowrap font-medium">
-                  {formatDayShort(date)}
+                  {formatDayShort(date, locale)}
                 </span>
               </button>
             );
@@ -330,10 +331,7 @@ export function DemoForm() {
         </div>
         {preferredDate && (
           <>
-            <p className="mt-3 mb-2 text-xs text-cream-faint">
-              Now select every time that works for you, as many as you like.
-              Free from 3 to 4? Pick 15:00 and 15:30.
-            </p>
+            <p className="mt-3 mb-2 text-xs text-cream-faint">{f.slotsHelper}</p>
             <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-6">
               {demoSlots.map((slot) => {
                 const selected = preferredSlots.includes(slot);
@@ -368,10 +366,10 @@ export function DemoForm() {
       </fieldset>
 
       <Textarea
-        label="Anything we should know?"
+        label={f.anythingElse}
         name="message"
         optional
-        placeholder="Current booking setup, website platform, busiest nights…"
+        placeholder={f.anythingPlaceholder}
         className="min-h-20"
         value={values.message}
         onChange={(e) => set("message")(e.target.value)}
@@ -390,7 +388,7 @@ export function DemoForm() {
         className="w-full"
         disabled={status === "submitting"}
       >
-        {status === "submitting" ? "Sending…" : "Request my demo"}
+        {status === "submitting" ? f.sending : f.submit}
       </Button>
     </form>
   );

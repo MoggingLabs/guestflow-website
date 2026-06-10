@@ -7,13 +7,14 @@ import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { getIndustry, industries } from "@/content/industries";
+import { getIndustry, industriesContent, industrySlugs } from "@/content/industries";
 import { getVenueTheme } from "@/content/widget-themes";
+import { getLocale } from "@/lib/i18n";
 
 type Params = { slug: string };
 
 export function generateStaticParams(): Params[] {
-  return industries.map(({ slug }) => ({ slug }));
+  return industrySlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +22,7 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
-  const industry = getIndustry((await params).slug);
+  const industry = getIndustry("en", (await params).slug);
   if (!industry) return {};
   return {
     title: `Online booking for ${industry.label.toLowerCase()}`,
@@ -34,10 +35,12 @@ export default async function IndustryPage({
 }: {
   params: Promise<Params>;
 }) {
-  const industry = getIndustry((await params).slug);
+  const locale = await getLocale();
+  const industry = getIndustry(locale, (await params).slug);
   if (!industry) notFound();
 
-  const venue = getVenueTheme(industry.themeId);
+  const t = industriesContent[locale].detail;
+  const venue = getVenueTheme(industry.themeId, locale);
 
   return (
     <>
@@ -51,8 +54,8 @@ export default async function IndustryPage({
         <Container>
           <Reveal>
             <SectionHeading
-              eyebrow="The problem"
-              title={`What ${industry.label.toLowerCase()} put up with today`}
+              eyebrow={t.problemEyebrow}
+              title={t.problemTitle(industry.label)}
             />
           </Reveal>
           <Reveal stagger className="mt-14 grid gap-5 md:grid-cols-3">
@@ -71,9 +74,9 @@ export default async function IndustryPage({
       </section>
 
       <WidgetShowcase
-        eyebrow="Live demo"
-        title={`Try a booking at ${venue.venueName}.`}
-        subhead="The venue is fictional, but the widget is real. This is how GuestFlow would feel themed for your business."
+        eyebrow={t.liveDemoEyebrow}
+        title={t.liveDemoTitle(venue.venueName)}
+        subhead={t.liveDemoSubhead}
         initialTheme={industry.themeId}
         showThemeSwitcher={false}
       />
@@ -82,8 +85,8 @@ export default async function IndustryPage({
         <Container>
           <Reveal>
             <SectionHeading
-              eyebrow="Built in"
-              title={`GuestFlow for ${industry.label.toLowerCase()}`}
+              eyebrow={t.builtInEyebrow}
+              title={t.builtInTitle(industry.label)}
             />
           </Reveal>
           <Reveal stagger className="mt-14 grid gap-10 md:grid-cols-3">
@@ -104,10 +107,7 @@ export default async function IndustryPage({
         </Container>
       </section>
 
-      <FooterCta
-        headline="Bring booking home to your website."
-        subhead="See GuestFlow themed for a venue like yours in a 20-minute demo."
-      />
+      <FooterCta headline={t.footerHeadline} subhead={t.footerSubhead} />
     </>
   );
 }

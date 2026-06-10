@@ -5,8 +5,9 @@ import { OwnYourData } from "@/components/sections/product/OwnYourData";
 import { WidgetShowcase } from "@/components/sections/shared/WidgetShowcase";
 import { FaqSection } from "@/components/sections/shared/FaqSection";
 import { FooterCta } from "@/components/layout/FooterCta";
-import { productHero } from "@/content/product";
-import { productFaq } from "@/content/faq";
+import { productContent } from "@/content/product";
+import { faqContent } from "@/content/faq";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Product",
@@ -14,23 +15,27 @@ export const metadata: Metadata = {
     "The full reservation lifecycle: a branded booking widget, real-time availability, guest CRM, deposits, reminders, and analytics, all on your own website.",
 };
 
-export default function ProductPage() {
+export default async function ProductPage() {
+  const locale = await getLocale();
+  const t = productContent[locale];
+  const faq = faqContent[locale];
+
   return (
     <>
       <PageHero
-        eyebrow={productHero.eyebrow}
-        headline={productHero.headline}
-        subhead={productHero.subhead}
+        eyebrow={t.hero.eyebrow}
+        headline={t.hero.headline}
+        subhead={t.hero.subhead}
       />
       <FeatureGrid />
       <OwnYourData />
       <WidgetShowcase
-        eyebrow="Live demo"
-        title="Try it for yourself."
-        subhead="This is the same widget your guests would use. Make a booking, then switch venue types to see it restyled."
-        caption="One booking system, styled to match each venue."
+        eyebrow={t.liveDemo.eyebrow}
+        title={t.liveDemo.title}
+        subhead={t.liveDemo.subhead}
+        caption={t.liveDemo.caption}
       />
-      <FaqSection items={productFaq} title="Product questions" />
+      <FaqSection items={faq.product} title={faq.productTitle} />
       <FooterCta />
     </>
   );

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { industries } from "@/content/industries";
+import { industrySlugs } from "@/content/industries";
 import { site } from "@/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -18,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : path === "/book-a-demo" ? 0.9 : 0.7,
   }));
 
-  const industryRoutes = industries.map((industry) => ({
-    url: `${site.url}/industries/${industry.slug}`,
+  const industryRoutes = industrySlugs.map((slug) => ({
+    url: `${site.url}/industries/${slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));

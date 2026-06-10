@@ -9,19 +9,23 @@ import { IndustriesPreview } from "@/components/sections/home/IndustriesPreview"
 import { BuiltForStrip } from "@/components/sections/home/BuiltForStrip";
 import { FaqSection } from "@/components/sections/shared/FaqSection";
 import { FooterCta } from "@/components/layout/FooterCta";
-import { widgetShowcase } from "@/content/home";
-import { homeFaq } from "@/content/faq";
+import { homeContent } from "@/content/home";
+import { faqContent } from "@/content/faq";
+import { getLocale } from "@/lib/i18n";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const locale = await getLocale();
+  const t = homeContent[locale];
+
   return (
     <>
       <Hero />
       <ProblemStrip />
       <WidgetShowcase
-        eyebrow={widgetShowcase.eyebrow}
-        title={widgetShowcase.title}
-        subhead={widgetShowcase.subhead}
-        caption={widgetShowcase.caption}
+        eyebrow={t.widgetShowcase.eyebrow}
+        title={t.widgetShowcase.title}
+        subhead={t.widgetShowcase.subhead}
+        caption={t.widgetShowcase.caption}
       />
       <HowItWorks />
       <Differentiators />
@@ -29,7 +33,7 @@ export default function HomePage() {
       <PromiseStrip />
       <IndustriesPreview />
       <BuiltForStrip />
-      <FaqSection items={homeFaq} />
+      <FaqSection items={faqContent[locale].home} title={t.faqTitle} />
       <FooterCta />
     </>
   );

@@ -32,14 +32,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { getLocale } = await import("@/lib/i18n");
+  const locale = await getLocale();
+
   return (
     <html
-      lang="en"
+      lang={locale === "pt" ? "pt-PT" : "en"}
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>

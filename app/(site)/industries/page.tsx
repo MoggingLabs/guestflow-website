@@ -5,7 +5,8 @@ import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { FooterCta } from "@/components/layout/FooterCta";
-import { industries, industriesIndex } from "@/content/industries";
+import { industriesContent } from "@/content/industries";
+import { getLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -13,19 +14,21 @@ export const metadata: Metadata = {
     "GuestFlow powers custom online booking for restaurants, hotels, spas, and tour operators, with one system shaped to each business.",
 };
 
-export default function IndustriesPage() {
+export default async function IndustriesPage() {
+  const t = industriesContent[await getLocale()];
+
   return (
     <>
       <PageHero
-        eyebrow={industriesIndex.eyebrow}
-        headline={industriesIndex.title}
-        subhead={industriesIndex.subhead}
+        eyebrow={t.index.eyebrow}
+        headline={t.index.title}
+        subhead={t.index.subhead}
         showCta={false}
       />
       <section className="pb-24 md:pb-36">
         <Container>
           <Reveal stagger className="grid gap-5 sm:grid-cols-2">
-            {industries.map((industry) => (
+            {t.industries.map((industry) => (
               <Link
                 key={industry.slug}
                 href={`/industries/${industry.slug}`}
@@ -41,7 +44,7 @@ export default function IndustriesPage() {
                   {industry.cardBlurb}
                 </p>
                 <span className="mt-auto pt-6 text-sm text-amber transition-colors group-hover:text-amber-bright">
-                  See {industry.label.toLowerCase()} booking →
+                  {t.index.seeBooking(industry.label)}
                 </span>
               </Link>
             ))}

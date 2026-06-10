@@ -11,9 +11,20 @@ export const metadata: Metadata = {
 
 const UL = "list-disc space-y-1.5 pl-5";
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const { getLocale } = await import("@/lib/i18n");
+  const locale = await getLocale();
+
   return (
     <LegalLayout title="Terms of service" updated="June 10, 2026">
+      {locale === "pt" && (
+        <p className="rounded-md border border-amber-deep/50 bg-amber/10 px-4 py-3 text-xs leading-relaxed text-amber">
+          Este documento legal é disponibilizado em inglês. Em caso de dúvida
+          ou conflito, prevalece a versão inglesa. Se precisar de
+          esclarecimentos em português, escreva-nos e teremos todo o gosto em
+          ajudar.
+        </p>
+      )}
       <h2>1. Who operates this website</h2>
       <p>
         This website is operated by [LEGAL ENTITY NAME], a company registered

@@ -11,8 +11,10 @@ import { TimeStep } from "@/components/widget/steps/TimeStep";
 import { DetailsStep } from "@/components/widget/steps/DetailsStep";
 import { ConfirmationStep } from "@/components/widget/steps/ConfirmationStep";
 import { getVenueTheme } from "@/content/widget-themes";
+import { widgetUi } from "@/content/widget-ui";
 import { getSelectableDates, getSlots } from "@/lib/availability";
 import { track } from "@/lib/analytics";
+import { useLocale } from "@/lib/locale-client";
 import type { VenueThemeId } from "@/types/content";
 
 const emptySubscribe = () => () => {};
@@ -21,7 +23,7 @@ type BookingWidgetProps = {
   initialTheme?: VenueThemeId;
   /** Industry pages lock the widget to their vertical's theme. */
   showThemeSwitcher?: boolean;
-  /** Caption shown under the switcher, e.g. "Same engine. Your brand." */
+  /** Caption shown under the switcher. */
   caption?: string;
 };
 
@@ -30,8 +32,10 @@ export function BookingWidget({
   showThemeSwitcher = true,
   caption,
 }: BookingWidgetProps) {
+  const locale = useLocale();
+  const ui = widgetUi[locale];
   const [state, dispatch] = useBookingMachine(initialTheme);
-  const theme = getVenueTheme(state.themeId);
+  const theme = getVenueTheme(state.themeId, locale);
 
   // Dates depend on "today", so they're computed after mount to keep
   // server and client HTML identical.
@@ -80,7 +84,7 @@ export function BookingWidget({
     dispatch({
       type: "SET_THEME",
       themeId: id,
-      maxUnits: Math.max(...getVenueTheme(id).unitOptions),
+      maxUnits: Math.max(...getVenueTheme(id, locale).unitOptions),
     });
     track("widget_theme_changed", { theme: id });
   };
@@ -138,7 +142,7 @@ export function BookingWidget({
         ) : state.step === "confirming" ? (
           <div
             role="status"
-            aria-label="Confirming your booking"
+            aria-label={ui.confirmingAria}
             className="flex h-40 items-center justify-center"
           >
             <span className="h-7 w-7 animate-spin rounded-full border-2 border-transparent [border-top-color:var(--wg-accent)] [border-right-color:var(--wg-accent)]" />

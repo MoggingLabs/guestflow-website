@@ -1,7 +1,8 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
-import { site } from "@/content/site";
+import { siteStrings } from "@/content/site";
+import { getLocale } from "@/lib/i18n";
 
 type PageHeroProps = {
   eyebrow?: string;
@@ -10,12 +11,14 @@ type PageHeroProps = {
   showCta?: boolean;
 };
 
-export function PageHero({
+export async function PageHero({
   eyebrow,
   headline,
   subhead,
   showCta = true,
 }: PageHeroProps) {
+  const cta = siteStrings[await getLocale()].cta.primary;
+
   return (
     <section className="relative overflow-hidden pt-36 pb-20 md:pt-44 md:pb-24">
       <Container className="text-center">
@@ -35,8 +38,8 @@ export function PageHero({
           )}
           {showCta && (
             <div className="mt-9">
-              <Button href={site.cta.primary.href} size="lg">
-                {site.cta.primary.label}
+              <Button href={cta.href} size="lg">
+                {cta.label}
               </Button>
             </div>
           )}
