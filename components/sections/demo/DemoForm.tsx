@@ -331,7 +331,7 @@ export function DemoForm() {
               Pick as many 30-minute windows as suit you — available from 3 to
               4? Select 15:00 and 15:30.
             </p>
-            <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-6">
+            <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-6 xl:grid-cols-9">
               {demoSlots.map((slot) => {
                 const selected = preferredSlots.includes(slot);
                 return (
