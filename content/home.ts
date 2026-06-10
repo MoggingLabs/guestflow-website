@@ -71,8 +71,8 @@ export const differentiators: { title: string; items: Differentiator[] } = {
     },
     {
       icon: "concierge",
-      title: "Concierge setup",
-      body: "We design, build, and install everything with you, from the first conversation to your first booking. No code on your end.",
+      title: "Concierge setup, personal results",
+      body: "We design, build, and install everything, and you get a founder as your direct contact, design revisions until the widget truly matches your brand, and a quarterly sit-down going over your bookings, no-shows, and repeat guests.",
     },
   ],
 };

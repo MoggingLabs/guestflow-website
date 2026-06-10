@@ -59,6 +59,16 @@ export const productFaq: FaqItem[] = [
     answer:
       "Yes. Groups can run several venues from one dashboard with separate availability, branding, and guest lists per location.",
   },
+  {
+    question: "Which channels and integrations do you support?",
+    answer:
+      "Reserve with Google (booking straight from your Google listing and Maps), Instagram and Facebook booking links, WhatsApp and email for confirmations and reminders, and Stripe for deposits paid into your own account. POS integration starts with Lightspeed, so deposits land on the final bill instead of a side spreadsheet. We wire all of this up for you during setup.",
+  },
+  {
+    question: "Where does our data live, and under which law?",
+    answer:
+      "Guest data is stored on servers in the European Union, your contract is governed by Portuguese law, and the whole system is built GDPR-first. Two questions worth asking any booking vendor: where is my contract governed, and where exactly does my guest data live?",
+  },
 ];
 
 export const pricingFaq: FaqItem[] = [

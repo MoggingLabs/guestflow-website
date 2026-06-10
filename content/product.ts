@@ -10,28 +10,28 @@ export const productHero = {
 export const features: Feature[] = [
   {
     icon: "widget",
-    title: "A widget that wears your brand",
-    body: "Typography, colors, copy, and flow are all tailored to your venue, so guests book without ever leaving your site.",
+    title: "A widget designed into your site",
+    body: "Typography, colors, copy, and flow tailored to your venue by people who build websites for a living. It's a designed part of your site, not a themed iframe, with availability, capacity, and blackout dates updating in real time.",
   },
   {
-    icon: "calendar",
-    title: "Real-time availability",
-    body: "Slots, capacity, pacing, and blackout dates managed in one dashboard, reflected on your site instantly.",
+    icon: "compass",
+    title: "Booked from Google, Instagram, and WhatsApp",
+    body: "Reserve with Google lets people book straight from your Google listing and Maps, booking links go on Instagram and Facebook, and WhatsApp reaches guests in the conversations they already have open.",
   },
   {
     icon: "data",
     title: "Guest CRM & export",
-    body: "Every booking builds your guest book with visits, preferences, and notes. It's yours to keep and export, and we never use it for anything else.",
+    body: "Every booking builds your guest book with visits, preferences, and notes. It's yours to keep and export as a CSV any day, and we never use it for anything else.",
   },
   {
     icon: "shield",
     title: "Deposits & no-show protection",
-    body: "Card guarantees and deposits for the bookings that hurt most to lose, with policies you control per service and party size.",
+    body: "Card guarantees and deposits for the bookings that hurt most to lose, paid into your own Stripe account, with policies you control per service and party size. Deposits show up on the final bill, not in a side spreadsheet.",
   },
   {
     icon: "bell",
     title: "Confirmations & reminders",
-    body: "Branded confirmation emails and well-timed reminders go out automatically, which makes a real dent in no-shows.",
+    body: "Branded confirmations and well-timed reminders go out automatically by email and WhatsApp, which makes a real dent in no-shows.",
   },
   {
     icon: "chart",
@@ -48,5 +48,6 @@ export const ownYourData = {
     "Full data export, any time, no questions",
     "No marketing to your guests, ever",
     "No cross-venue marketplace, so your guests only ever see you",
+    "Guest data on EU servers, under a Portuguese-law contract, GDPR by design",
   ],
 };
