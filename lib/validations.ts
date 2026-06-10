@@ -19,7 +19,8 @@ export const webPresences = [
 ] as const;
 
 /** Shared by the client form and the API route handler. */
-export const demoRequestSchema = z.object({
+export const demoRequestSchema = z
+  .object({
   name: z
     .string()
     .trim()
@@ -32,6 +33,12 @@ export const demoRequestSchema = z.object({
     .min(2, "Please enter your business name")
     .max(150, "That name looks too long"),
   businessType: z.enum(businessTypes, "Please choose your business type"),
+  /** Required when businessType is "Other" — enforced in superRefine below. */
+  businessTypeOther: z
+    .string()
+    .trim()
+    .max(150, "Please keep it under 150 characters")
+    .optional(),
   preferredDate: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -43,6 +50,15 @@ export const demoRequestSchema = z.object({
   pageSource: z.string().max(200).optional(),
   /** Honeypot — humans never fill this; bots that do get a fake success. */
   website: z.string().max(500).optional(),
-});
+  })
+  .superRefine((data, ctx) => {
+    if (data.businessType === "Other" && !data.businessTypeOther?.trim()) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["businessTypeOther"],
+        message: "Please tell us what kind of business it is",
+      });
+    }
+  });
 
 export type DemoRequest = z.infer<typeof demoRequestSchema>;

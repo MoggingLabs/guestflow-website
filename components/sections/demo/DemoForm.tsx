@@ -35,6 +35,7 @@ export function DemoForm() {
     email: "",
     businessName: "",
     businessType: "",
+    businessTypeOther: "",
     webPresence: "",
     message: "",
   });
@@ -220,7 +221,11 @@ export function DemoForm() {
         label="Business type"
         name="businessType"
         value={values.businessType}
-        onChange={(e) => set("businessType")(e.target.value)}
+        onChange={(e) => {
+          set("businessType")(e.target.value);
+          // Leaving "Other" makes the specify-field disappear; drop its value.
+          if (e.target.value !== "Other") set("businessTypeOther")("");
+        }}
         onFocus={handleFieldFocus}
         onBlur={handleFieldBlur}
         error={errors.businessType}
@@ -234,6 +239,18 @@ export function DemoForm() {
           </option>
         ))}
       </Select>
+      {values.businessType === "Other" && (
+        <Input
+          label="What kind of business is it?"
+          name="businessTypeOther"
+          placeholder="e.g. cooking school, gallery, co-working space…"
+          value={values.businessTypeOther}
+          onChange={(e) => set("businessTypeOther")(e.target.value)}
+          onFocus={handleFieldFocus}
+          onBlur={handleFieldBlur}
+          error={errors.businessTypeOther}
+        />
+      )}
       <Select
         label="Where do guests find you today?"
         name="webPresence"

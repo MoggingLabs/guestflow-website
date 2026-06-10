@@ -88,8 +88,13 @@ export default async function AdminLeadsPage({
                       </p>
                     )}
                   </td>
-                  <td className="px-5 py-3 text-cream-dim">
-                    {lead.business_type}
+                  <td className="px-5 py-3">
+                    <p className="text-cream-dim">{lead.business_type}</p>
+                    {lead.business_type_other && (
+                      <p className="text-xs text-cream-faint">
+                        {lead.business_type_other}
+                      </p>
+                    )}
                   </td>
                   <td className="whitespace-nowrap px-5 py-3 text-cream-dim">
                     {[lead.preferred_date, lead.preferred_window]

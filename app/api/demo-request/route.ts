@@ -112,6 +112,8 @@ export async function POST(request: NextRequest) {
     email,
     business_name: businessName,
     business_type: businessType,
+    business_type_other:
+      businessType === "Other" ? parsed.data.businessTypeOther || null : null,
     preferred_date: parsed.data.preferredDate || null,
     preferred_window: parsed.data.preferredWindow || null,
     web_presence: parsed.data.webPresence || null,

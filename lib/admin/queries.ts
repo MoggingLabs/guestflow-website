@@ -66,6 +66,7 @@ export type Lead = {
   email: string;
   business_name: string;
   business_type: string;
+  business_type_other: string | null;
   preferred_date: string | null;
   preferred_window: string | null;
   web_presence: string | null;
