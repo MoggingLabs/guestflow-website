@@ -22,7 +22,7 @@ export function IndustriesPreview() {
             <Link
               key={industry.slug}
               href={`/industries/${industry.slug}`}
-              className="group rounded-lg border border-line bg-surface p-7 shadow-card transition-colors hover:border-amber-deep"
+              className="group flex h-full flex-col rounded-lg border border-line bg-surface p-7 shadow-card transition-colors hover:border-amber-deep"
             >
               <span className="text-amber">
                 <Icon name={industry.icon} />
@@ -33,7 +33,9 @@ export function IndustriesPreview() {
               <p className="mt-3 text-sm leading-relaxed text-cream-dim">
                 {industry.cardBlurb}
               </p>
-              <span className="mt-5 inline-block text-sm text-amber transition-colors group-hover:text-amber-bright">
+              {/* mt-auto pins the link to the bottom-left of every card,
+                  regardless of how long the blurb above it runs. */}
+              <span className="mt-auto pt-6 text-sm text-amber transition-colors group-hover:text-amber-bright">
                 Explore →
               </span>
             </Link>
