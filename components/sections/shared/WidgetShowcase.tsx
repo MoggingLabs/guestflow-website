@@ -26,19 +26,23 @@ export function WidgetShowcase({
   showThemeSwitcher = true,
 }: WidgetShowcaseProps) {
   return (
-    <section id="live-demo" className="scroll-mt-24 py-24 md:py-36">
-      <Container>
-        <Reveal>
-          <SectionHeading eyebrow={eyebrow} title={title} subhead={subhead} />
-        </Reveal>
-        <Reveal delay={0.15} className="mt-12">
-          <BookingWidget
-            initialTheme={initialTheme}
-            showThemeSwitcher={showThemeSwitcher}
-            caption={caption}
-          />
-        </Reveal>
-      </Container>
+    <section className="border-t border-line py-24 md:py-36">
+      {/* The anchor sits on the content, not the section, so jumping to
+          #live-demo lands on the heading rather than the padding above it. */}
+      <div id="live-demo" className="scroll-mt-24">
+        <Container>
+          <Reveal>
+            <SectionHeading eyebrow={eyebrow} title={title} subhead={subhead} />
+          </Reveal>
+          <Reveal delay={0.15} className="mt-12">
+            <BookingWidget
+              initialTheme={initialTheme}
+              showThemeSwitcher={showThemeSwitcher}
+              caption={caption}
+            />
+          </Reveal>
+        </Container>
+      </div>
     </section>
   );
 }
