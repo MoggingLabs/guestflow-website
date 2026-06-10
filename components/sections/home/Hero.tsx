@@ -1,13 +1,15 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { HeroParticles } from "@/components/sections/home/HeroParticles";
 import { hero } from "@/content/home";
 import { site } from "@/content/site";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-40 pb-28 md:pt-52 md:pb-40">
+    <section className="relative flex min-h-[92vh] items-center overflow-hidden pt-28 pb-20 md:pt-32 md:pb-24">
       <div aria-hidden className="hero-glow absolute inset-0" />
+      <HeroParticles />
       <Container className="relative text-center">
         <Reveal>
           <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-amber">
