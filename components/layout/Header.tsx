@@ -2,26 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
 import { navLinks, site } from "@/content/site";
 import { cn } from "@/lib/utils";
 
+function subscribeToScroll(callback: () => void) {
+  window.addEventListener("scroll", callback, { passive: true });
+  return () => window.removeEventListener("scroll", callback);
+}
+
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const scrolled = useSyncExternalStore(
+    subscribeToScroll,
+    () => window.scrollY > 50,
+    () => false,
+  );
 
-  // Close the mobile menu on navigation and lock body scroll while open.
-  useEffect(() => setOpen(false), [pathname]);
+  // Lock body scroll while the mobile menu is open.
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -115,6 +117,7 @@ export function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  onClick={() => setOpen(false)}
                   className="block rounded-md px-3 py-3 font-display text-2xl text-cream transition-colors hover:bg-surface"
                 >
                   {link.label}
@@ -127,6 +130,7 @@ export function Header() {
               href={site.cta.primary.href}
               size="lg"
               className="w-full"
+              onClick={() => setOpen(false)}
               analyticsLabel="mobile_nav_book_demo"
             >
               {site.cta.primary.label}

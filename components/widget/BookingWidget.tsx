@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { useBookingMachine } from "@/components/widget/useBookingMachine";
 import { WidgetFrame } from "@/components/widget/WidgetFrame";
 import { WidgetProgress } from "@/components/widget/WidgetProgress";
@@ -14,6 +14,8 @@ import { getVenueTheme } from "@/content/widget-themes";
 import { getSelectableDates, getSlots } from "@/lib/availability";
 import { track } from "@/lib/analytics";
 import type { VenueThemeId } from "@/types/content";
+
+const emptySubscribe = () => () => {};
 
 type BookingWidgetProps = {
   initialTheme?: VenueThemeId;
@@ -33,10 +35,15 @@ export function BookingWidget({
 
   // Dates depend on "today", so they're computed after mount to keep
   // server and client HTML identical.
-  const [dates, setDates] = useState<Date[] | null>(null);
-  useEffect(() => {
-    setDates(getSelectableDates(new Date()));
-  }, []);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+  const dates = useMemo(
+    () => (mounted ? getSelectableDates(new Date()) : null),
+    [mounted],
+  );
 
   const slots = useMemo(
     () => (state.dateKey ? getSlots(state.dateKey, theme) : []),

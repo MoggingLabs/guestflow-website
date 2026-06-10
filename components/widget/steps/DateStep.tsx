@@ -44,7 +44,7 @@ export function DateStep({
               >
                 {formatWeekday(date)}
               </span>
-              <span className="text-sm font-medium">
+              <span className="whitespace-nowrap text-sm font-medium">
                 {formatDayShort(date)}
               </span>
             </button>

@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GuestFlow — sales website
 
-## Getting Started
+Marketing and lead-generation website for **GuestFlow**, a white-label
+online booking platform for restaurants, hotels, spas, and experience
+businesses. Built by [MoggingLabs](https://github.com/MoggingLabs).
 
-First, run the development server:
+The centerpiece is a **live interactive booking widget** (`components/widget/`)
+— a fully client-side mock of the product that prospects can try on the page,
+with four venue themes demonstrating the white-label pitch.
+
+## Stack
+
+- Next.js 16 (App Router, Turbopack) · React 19 · TypeScript
+- Tailwind CSS v4 (design tokens in `app/globals.css` `@theme`)
+- GSAP + ScrollTrigger, Lenis smooth scroll (reduced-motion aware)
+- Supabase (lead storage) + Resend (notifications) — both optional/env-gated
+- Vercel Analytics
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site runs fully without env vars; demo-form leads are logged to the
+server console in that mode. For real lead capture, copy `.env.example`
+to `.env.local` and fill in Supabase + Resend keys.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Lead storage (Supabase)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create the `leads` table (RLS on, no public policies — the API route uses
+the service role):
 
-## Learn More
+```sql
+create table leads (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  name text not null,
+  email text not null,
+  business_name text not null,
+  business_type text not null,
+  preferred_date date,
+  preferred_window text,
+  message text,
+  page_source text,
+  status text not null default 'new'
+);
+alter table leads enable row level security;
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project conventions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **All copy lives in `content/*.ts`** — pages are thin server components
+  that pass typed data into `components/sections/*`. Copy edits never
+  touch JSX.
+- Adding an industry vertical = adding one entry to
+  `content/industries.ts` (routes, metadata, and cards derive from it).
+- Widget venue themes live in `content/widget-themes.ts`; the widget is
+  self-contained under `components/widget/` for future extraction.
+- Amber (`--color-amber`) is the single accent: CTAs, eyebrows,
+  highlights only — never large background fills.
