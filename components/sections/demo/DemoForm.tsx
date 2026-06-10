@@ -271,7 +271,7 @@ export function DemoForm() {
           Preferred demo time
           <span className="text-xs font-normal text-cream-faint">Optional</span>
         </legend>
-        <div className="flex gap-2 overflow-x-auto pb-1.5">
+        <div className="flex flex-wrap gap-2">
           {dates.map((date) => {
             const key = toDateKey(date);
             const selected = key === preferredDate;
