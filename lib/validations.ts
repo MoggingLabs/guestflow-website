@@ -9,7 +9,11 @@ export const businessTypes = [
   "Other",
 ] as const;
 
-export const demoWindows = ["Morning", "Afternoon"] as const;
+/** 30-minute demo-call windows, 9:00–17:30 local time. */
+export const demoSlots: string[] = Array.from({ length: 18 }, (_, i) => {
+  const hour = 9 + Math.floor(i / 2);
+  return `${hour}:${i % 2 === 0 ? "00" : "30"}`;
+});
 
 export const webPresences = [
   "My own website",
@@ -50,7 +54,10 @@ export const demoRequestSchema = z
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional()
     .or(z.literal("")),
-  preferredWindow: z.enum(demoWindows).optional().or(z.literal("")),
+  preferredSlots: z
+    .array(z.string().regex(/^\d{1,2}:\d{2}$/))
+    .max(18)
+    .optional(),
   webPresence: z.array(z.enum(webPresences)).max(webPresences.length).optional(),
   message: z.string().max(2000, "Please keep it under 2000 characters").optional(),
   pageSource: z.string().max(200).optional(),

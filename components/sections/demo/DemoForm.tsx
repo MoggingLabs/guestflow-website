@@ -7,7 +7,7 @@ import { Input, Select, Textarea } from "@/components/ui/Field";
 import {
   businessTypes,
   demoRequestSchema,
-  demoWindows,
+  demoSlots,
   webPresences,
 } from "@/lib/validations";
 import { setFormTelemetry, track } from "@/lib/analytics";
@@ -28,6 +28,11 @@ function upcomingWeekdays(count = 10): Date[] {
 
 type FieldErrors = Partial<Record<string, string>>;
 
+const PILL_BASE =
+  "rounded-md border px-3 py-2 text-xs transition-colors";
+const PILL_OFF = "border-line text-cream-dim hover:border-amber-deep";
+const PILL_ON = "border-amber bg-amber/10 text-amber";
+
 export function DemoForm() {
   const pathname = usePathname();
   const [values, setValues] = useState({
@@ -40,7 +45,7 @@ export function DemoForm() {
   });
   const [webPresence, setWebPresence] = useState<string[]>([]);
   const [preferredDate, setPreferredDate] = useState("");
-  const [preferredWindow, setPreferredWindow] = useState("");
+  const [preferredSlots, setPreferredSlots] = useState<string[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success">(
     "idle",
@@ -121,7 +126,7 @@ export function DemoForm() {
     const payload = {
       ...values,
       preferredDate,
-      preferredWindow,
+      preferredSlots,
       webPresence,
       pageSource: pathname,
       website: honeypot,
@@ -187,59 +192,61 @@ export function DemoForm() {
         </label>
       </div>
 
-      <Input
-        label="Full name"
-        name="name"
-        autoComplete="name"
-        value={values.name}
-        onChange={(e) => set("name")(e.target.value)}
-        onFocus={handleFieldFocus}
-        onBlur={handleFieldBlur}
-        error={errors.name}
-      />
-      <Input
-        label="Work email"
-        name="email"
-        type="email"
-        autoComplete="email"
-        value={values.email}
-        onChange={(e) => set("email")(e.target.value)}
-        onFocus={handleFieldFocus}
-        onBlur={handleFieldBlur}
-        error={errors.email}
-      />
-      <Input
-        label="Business name"
-        name="businessName"
-        autoComplete="organization"
-        value={values.businessName}
-        onChange={(e) => set("businessName")(e.target.value)}
-        onFocus={handleFieldFocus}
-        onBlur={handleFieldBlur}
-        error={errors.businessName}
-      />
-      <Select
-        label="Business type"
-        name="businessType"
-        value={values.businessType}
-        onChange={(e) => {
-          set("businessType")(e.target.value);
-          // Leaving "Other" makes the specify-field disappear; drop its value.
-          if (e.target.value !== "Other") set("businessTypeOther")("");
-        }}
-        onFocus={handleFieldFocus}
-        onBlur={handleFieldBlur}
-        error={errors.businessType}
-      >
-        <option value="" disabled>
-          Choose one…
-        </option>
-        {businessTypes.map((type) => (
-          <option key={type} value={type}>
-            {type}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Input
+          label="Full name"
+          name="name"
+          autoComplete="name"
+          value={values.name}
+          onChange={(e) => set("name")(e.target.value)}
+          onFocus={handleFieldFocus}
+          onBlur={handleFieldBlur}
+          error={errors.name}
+        />
+        <Input
+          label="Work email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          value={values.email}
+          onChange={(e) => set("email")(e.target.value)}
+          onFocus={handleFieldFocus}
+          onBlur={handleFieldBlur}
+          error={errors.email}
+        />
+        <Input
+          label="Business name"
+          name="businessName"
+          autoComplete="organization"
+          value={values.businessName}
+          onChange={(e) => set("businessName")(e.target.value)}
+          onFocus={handleFieldFocus}
+          onBlur={handleFieldBlur}
+          error={errors.businessName}
+        />
+        <Select
+          label="Business type"
+          name="businessType"
+          value={values.businessType}
+          onChange={(e) => {
+            set("businessType")(e.target.value);
+            // Leaving "Other" makes the specify-field disappear; drop its value.
+            if (e.target.value !== "Other") set("businessTypeOther")("");
+          }}
+          onFocus={handleFieldFocus}
+          onBlur={handleFieldBlur}
+          error={errors.businessType}
+        >
+          <option value="" disabled>
+            Choose one…
           </option>
-        ))}
-      </Select>
+          {businessTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </Select>
+      </div>
       {values.businessType === "Other" && (
         <Input
           label="What kind of business is it?"
@@ -252,6 +259,7 @@ export function DemoForm() {
           error={errors.businessTypeOther}
         />
       )}
+
       <fieldset>
         <legend className="mb-2 flex w-full items-baseline justify-between text-sm font-medium text-cream">
           Where do guests find you today?
@@ -259,7 +267,7 @@ export function DemoForm() {
             Optional — select all that apply
           </span>
         </legend>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {webPresences.map((presence) => {
             const selected = webPresence.includes(presence);
             return (
@@ -274,12 +282,7 @@ export function DemoForm() {
                       : [...current, presence],
                   )
                 }
-                className={cn(
-                  "rounded-md border px-3.5 py-2 text-xs transition-colors",
-                  selected
-                    ? "border-amber bg-amber/10 text-amber"
-                    : "border-line text-cream-dim hover:border-amber-deep",
-                )}
+                className={cn(PILL_BASE, selected ? PILL_ON : PILL_OFF)}
               >
                 {presence}
               </button>
@@ -290,10 +293,10 @@ export function DemoForm() {
 
       <fieldset>
         <legend className="mb-2 flex w-full items-baseline justify-between text-sm font-medium text-cream">
-          Preferred demo time
+          When works for a 20-minute call?
           <span className="text-xs font-normal text-cream-faint">Optional</span>
         </legend>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {dates.map((date) => {
             const key = toDateKey(date);
             const selected = key === preferredDate;
@@ -302,45 +305,63 @@ export function DemoForm() {
                 key={key}
                 type="button"
                 aria-pressed={selected}
-                onClick={() => setPreferredDate(selected ? "" : key)}
+                onClick={() => {
+                  setPreferredDate(selected ? "" : key);
+                  setPreferredSlots([]);
+                }}
                 className={cn(
-                  "flex shrink-0 flex-col items-center rounded-md border px-3.5 py-2 text-xs transition-colors",
-                  selected
-                    ? "border-amber bg-amber/10 text-amber"
-                    : "border-line text-cream-dim hover:border-amber-deep",
+                  PILL_BASE,
+                  "flex flex-col items-center px-3",
+                  selected ? PILL_ON : PILL_OFF,
                 )}
               >
-                <span className="uppercase tracking-wider">
+                <span className="text-[10px] uppercase tracking-wider">
                   {formatWeekday(date)}
                 </span>
-                <span className="mt-0.5 font-medium">
+                <span className="whitespace-nowrap font-medium">
                   {formatDayShort(date)}
                 </span>
               </button>
             );
           })}
         </div>
-        <div className="mt-2.5 flex gap-2">
-          {demoWindows.map((w) => {
-            const selected = w === preferredWindow;
-            return (
-              <button
-                key={w}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => setPreferredWindow(selected ? "" : w)}
-                className={cn(
-                  "rounded-md border px-4 py-2 text-xs transition-colors",
-                  selected
-                    ? "border-amber bg-amber/10 text-amber"
-                    : "border-line text-cream-dim hover:border-amber-deep",
-                )}
-              >
-                {w}
-              </button>
-            );
-          })}
-        </div>
+        {preferredDate && (
+          <>
+            <p className="mt-3 mb-2 text-xs text-cream-faint">
+              Pick as many 30-minute windows as suit you — available from 3 to
+              4? Select 15:00 and 15:30.
+            </p>
+            <div className="grid grid-cols-4 gap-1.5 sm:grid-cols-6">
+              {demoSlots.map((slot) => {
+                const selected = preferredSlots.includes(slot);
+                return (
+                  <button
+                    key={slot}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() =>
+                      setPreferredSlots((current) =>
+                        selected
+                          ? current.filter((s) => s !== slot)
+                          : [...current, slot].sort(
+                              (a, b) =>
+                                demoSlots.indexOf(a) - demoSlots.indexOf(b),
+                            ),
+                      )
+                    }
+                    className={cn(
+                      PILL_BASE,
+                      "text-center tabular-nums",
+                      selected ? PILL_ON : PILL_OFF,
+                    )}
+                  >
+                    {slot}
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
       </fieldset>
 
       <Textarea
@@ -348,6 +369,7 @@ export function DemoForm() {
         name="message"
         optional
         placeholder="Current booking setup, website platform, busiest nights…"
+        className="min-h-20"
         value={values.message}
         onChange={(e) => set("message")(e.target.value)}
         error={errors.message}

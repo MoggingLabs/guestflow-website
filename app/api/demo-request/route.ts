@@ -27,7 +27,7 @@ async function sendEmails(lead: {
   businessName: string;
   businessType: string;
   preferredDate?: string;
-  preferredWindow?: string;
+  preferredSlots?: string[];
   message?: string;
 }) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -39,8 +39,9 @@ async function sendEmails(lead: {
   const resend = new Resend(apiKey);
 
   const preferred =
-    [lead.preferredDate, lead.preferredWindow].filter(Boolean).join(", ") ||
-    "No preference given";
+    [lead.preferredDate, lead.preferredSlots?.join(", ")]
+      .filter(Boolean)
+      .join(" at ") || "No preference given";
 
   if (notify) {
     await resend.emails.send({
@@ -115,7 +116,9 @@ export async function POST(request: NextRequest) {
     business_type_other:
       businessType === "Other" ? parsed.data.businessTypeOther || null : null,
     preferred_date: parsed.data.preferredDate || null,
-    preferred_window: parsed.data.preferredWindow || null,
+    preferred_slots: parsed.data.preferredSlots?.length
+      ? parsed.data.preferredSlots
+      : null,
     web_presence: parsed.data.webPresence?.length
       ? parsed.data.webPresence
       : null,

@@ -210,7 +210,13 @@ async function seed() {
       email: `${name.toLowerCase().split(" ")[0]}${i}@example.com`,
       business_name: i >= LEAD_NAMES.length ? `${business} ${Math.ceil((i + 1) / LEAD_NAMES.length)}` : business,
       business_type: type,
-      preferred_window: pick(["Morning", "Afternoon", ""]) || null,
+      preferred_slots:
+        rand() < 0.6
+          ? Array.from(
+              { length: intBetween(1, 3) },
+              (_, k) => `${intBetween(9, 15) + k}:${pick(["00", "30"])}`,
+            )
+          : null,
       message: rand() < 0.4 ? "Found you through the live demo — impressive." : null,
       page_source: "/book-a-demo",
       status: pick(["new", "contacted", "closed"], [4, 4, 2]),

@@ -96,10 +96,22 @@ export default async function AdminLeadsPage({
                       </p>
                     )}
                   </td>
-                  <td className="whitespace-nowrap px-5 py-3 text-cream-dim">
-                    {[lead.preferred_date, lead.preferred_window]
-                      .filter(Boolean)
-                      .join(", ") || "—"}
+                  <td className="px-5 py-3 text-cream-dim">
+                    {lead.preferred_date ? (
+                      <>
+                        <p className="whitespace-nowrap">
+                          {lead.preferred_date}
+                        </p>
+                        {lead.preferred_slots &&
+                          lead.preferred_slots.length > 0 && (
+                            <p className="text-xs text-cream-faint">
+                              {lead.preferred_slots.join(" · ")}
+                            </p>
+                          )}
+                      </>
+                    ) : (
+                      "—"
+                    )}
                   </td>
                   <td className="max-w-56 px-5 py-3 text-xs text-cream-faint">
                     {lead.message ?? "—"}
