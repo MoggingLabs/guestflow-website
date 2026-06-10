@@ -9,8 +9,8 @@ type FooterCtaProps = {
 };
 
 export function FooterCta({
-  headline = "Your website. Your guests. Your bookings.",
-  subhead = "See GuestFlow running on a site like yours — 20 minutes, no commitment.",
+  headline = "Ready to take bookings on your own website?",
+  subhead = "See GuestFlow running on a site like yours. The demo takes 20 minutes, and there's no commitment.",
 }: FooterCtaProps) {
   return (
     <section className="relative overflow-hidden border-t border-line">

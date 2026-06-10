@@ -26,9 +26,9 @@ export default function ProductPage() {
       <OwnYourData />
       <WidgetShowcase
         eyebrow="Live demo"
-        title="Feel it for yourself."
-        subhead="The same widget your guests would use — try a booking, then switch venue types."
-        caption="Same engine. Your brand."
+        title="Try it for yourself."
+        subhead="This is the same widget your guests would use. Make a booking, then switch venue types to see it restyled."
+        caption="One booking system, styled to match each venue."
       />
       <FaqSection items={productFaq} title="Product questions" />
       <FooterCta />

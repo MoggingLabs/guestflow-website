@@ -4,7 +4,7 @@ export const site = {
   name: "GuestFlow",
   tagline: "Booking that belongs on your website.",
   description:
-    "GuestFlow is a white-label reservation system for restaurants, hotels, spas, and experiences — designed into your site, matched to your brand, with every guest relationship staying yours.",
+    "GuestFlow is a white-label reservation system for restaurants, hotels, spas, and experiences. We design it into your own website, matched to your brand, and every guest relationship stays yours.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://guestflow-website.vercel.app",
   email: "hello@guestflow.app",
   company: "MoggingLabs",

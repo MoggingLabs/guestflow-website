@@ -2,16 +2,16 @@ import type { Feature } from "@/types/content";
 
 export const productHero = {
   eyebrow: "Product",
-  headline: "Everything booking should do. Nothing it shouldn't.",
+  headline: "Everything you need to take bookings on your own website.",
   subhead:
-    "GuestFlow handles the full reservation lifecycle — from the moment a guest lands on your site to the moment they walk back in for the third time.",
+    "GuestFlow handles the whole reservation journey, from the moment a guest lands on your site to the moment they come back to book again.",
 };
 
 export const features: Feature[] = [
   {
     icon: "widget",
     title: "A widget that wears your brand",
-    body: "Typography, colors, copy, and flow tailored to your venue. Guests book without ever leaving your site — or realizing software was involved.",
+    body: "Typography, colors, copy, and flow are all tailored to your venue, so guests book without ever leaving your site.",
   },
   {
     icon: "calendar",
@@ -21,7 +21,7 @@ export const features: Feature[] = [
   {
     icon: "data",
     title: "Guest CRM & export",
-    body: "Every booking builds your guest book: visits, preferences, notes. Yours to keep and export — never ours to monetize.",
+    body: "Every booking builds your guest book with visits, preferences, and notes. It's yours to keep and export, and we never use it for anything else.",
   },
   {
     icon: "shield",
@@ -31,19 +31,19 @@ export const features: Feature[] = [
   {
     icon: "bell",
     title: "Confirmations & reminders",
-    body: "Branded email confirmations and perfectly-timed reminders that cut no-shows without you lifting a finger.",
+    body: "Branded confirmation emails and well-timed reminders go out automatically, which makes a real dent in no-shows.",
   },
   {
     icon: "chart",
     title: "Booking analytics",
-    body: "See where bookings come from, when demand peaks, and which slots underperform — decisions backed by your own data.",
+    body: "See where bookings come from, when demand peaks, and which slots underperform, so your decisions are backed by your own numbers.",
   },
 ];
 
 export const ownYourData = {
   eyebrow: "The principle",
-  title: "Your guest list is the business. We never touch it.",
-  body: "Marketplace platforms built billion-dollar businesses on data that restaurants and hotels generated. GuestFlow is structured so that can't happen here: your bookings and your guests live in your account, exportable in full at any time. We charge for software — not for access to your relationships.",
+  title: "Your guest data is yours, and it stays that way.",
+  body: "Marketplace platforms built very large businesses on data that restaurants and hotels generated for them. GuestFlow is set up so that can't happen here: your bookings and your guests live in your account, and you can export everything at any time. We charge for the software, nothing more.",
   points: [
     "Full data export, any time, no questions",
     "No marketing to your guests, ever",

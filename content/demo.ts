@@ -1,8 +1,8 @@
 export const demoPage = {
   eyebrow: "Book a demo",
-  headline: "See GuestFlow on a site like yours — 20 minutes.",
+  headline: "See GuestFlow on a site like yours, in 20 minutes.",
   subhead:
-    "A working session, not a sales pitch. We'll show the booking flow, the dashboard, and what your branded version would look like.",
+    "A working session, not a sales pitch. We'll show you the booking flow, the dashboard, and what your branded version would look like.",
   expectations: {
     title: "What to expect",
     items: [
@@ -16,7 +16,7 @@ export const demoPage = {
       },
       {
         title: "Straight answers",
-        body: "Pricing, data ownership, edge cases — ask anything. No commitment, and no setup-fee talk unless you want it.",
+        body: "Ask us anything about pricing, data ownership, or how your specific setup would work. There's no commitment and no pressure at the end.",
       },
     ],
   },

@@ -4,75 +4,75 @@ export const hero = {
   eyebrow: "White-label online booking",
   headline: "Booking that belongs on your website.",
   subhead:
-    "GuestFlow is a white-label reservation system for restaurants, hotels, and experiences — designed into your site, matched to your brand, with every guest relationship staying yours.",
+    "GuestFlow is a reservation system we design into your own website, so it looks and feels like your brand. Guests book directly with you, and every guest relationship stays yours.",
 };
 
 export const problems = {
-  title: "Your guests deserve better than a third-party tab.",
+  title: "Why send your guests somewhere else to book?",
   items: [
     {
       title: "Third-party apps own your guests",
-      body: "Marketplace platforms sit between you and the people you host. They collect the emails, the preferences, the loyalty — and rent them back to you.",
+      body: "Booking platforms sit between you and the people you host. They keep the guest emails and the booking history, and you end up paying to reach your own customers.",
     },
     {
       title: "You pay commission per cover",
-      body: "Per-booking fees punish you for being busy. Your best Saturday of the year is also your most expensive.",
+      body: "With per-booking fees, the busier you are, the more you pay. It adds up fast, especially on the nights you work hardest.",
     },
     {
       title: "The booking page isn't yours",
-      body: "You've invested in a beautiful website — then the reservation step dumps guests onto a generic page that looks like everyone else's.",
+      body: "You've put real care into your website, but the moment guests try to book, they land on a generic page that looks nothing like you.",
     },
   ],
 };
 
 export const widgetShowcase = {
   eyebrow: "Live demo",
-  title: "Don't take our word for it. Book a table.",
+  title: "See for yourself — try booking a table.",
   subhead:
-    "This is a real GuestFlow widget running right here on the page. Switch the venue type to see the same engine wearing a different brand.",
-  caption: "Same engine. Your brand.",
+    "This is a real GuestFlow widget running right here on the page. Switch the venue type to see how the same system looks when it's styled for a different business.",
+  caption: "One booking system, styled to match each venue.",
 };
 
 export const howItWorks: { title: string; steps: HowItWorksStep[] } = {
-  title: "Live in days, not months.",
+  title: "Up and running in days.",
   steps: [
     {
       title: "We design it into your site",
-      body: "Our team builds the booking experience to match your brand — typography, colors, voice — and installs it on your existing website. You don't touch code.",
+      body: "Our team builds the booking experience to match your brand, from typography to tone of voice, and installs it on your existing website. You never have to touch code.",
     },
     {
       title: "Guests book in seconds",
-      body: "Date, party, time, done. A flow that feels native to your site, works beautifully on mobile, and never sends guests somewhere else.",
+      body: "Guests pick a date, a party size, and a time without ever leaving your site. The whole flow works just as well on a phone as it does on a laptop.",
     },
     {
       title: "You own every reservation",
-      body: "Bookings, guest details, and preferences land in your dashboard — yours to keep, export, and build on. No middleman.",
+      body: "Bookings, guest details, and preferences all land in your dashboard. They're yours to keep, export, and build on, with nobody in between.",
     },
   ],
 };
 
 export const differentiators: { title: string; items: Differentiator[] } = {
-  title: "Why teams switch to GuestFlow.",
+  title: "Why venues choose GuestFlow.",
   items: [
     {
       icon: "brand",
       title: "Truly yours",
-      body: "GuestFlow lives on your domain, in your brand. Guests never leave your site — and never see ours.",
+      body: "GuestFlow lives on your domain and wears your brand. Guests book without ever leaving your site, and they never see our name.",
     },
     {
       icon: "commission",
       title: "No per-cover commission",
-      body: "Flat monthly pricing. A full Saturday costs the same as a slow Tuesday, so growth is pure upside.",
+      body: "You pay a flat monthly price that stays the same however busy you get. A full Saturday costs you exactly what a quiet Tuesday does.",
     },
     {
       icon: "data",
       title: "Own your guest data",
-      body: "Every booking, preference, and email is yours to export at any time. No marketplace between you and your guests.",
+      body: "Every booking, preference, and email address is yours, and you can export it all whenever you like. There's no marketplace between you and your guests.",
     },
     {
       icon: "concierge",
       title: "Concierge setup",
-      body: "We design, build, and install it with you. From kickoff to first booking without touching a line of code.",
+      body: "We design, build, and install everything with you, from the first conversation to your first booking. No code on your end.",
     },
   ],
 };
@@ -80,7 +80,7 @@ export const differentiators: { title: string; items: Differentiator[] } = {
 export const industriesPreview = {
   title: "Built for the way you host.",
   subhead:
-    "One booking engine, shaped to the rhythm of your business — covers, stays, treatments, or departures.",
+    "Whether you take table reservations, room bookings, treatments, or tour departures, GuestFlow adapts to how your business actually works.",
 };
 
 export const builtFor = {

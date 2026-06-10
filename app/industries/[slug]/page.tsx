@@ -73,7 +73,7 @@ export default async function IndustryPage({
       <WidgetShowcase
         eyebrow="Live demo"
         title={`Try a booking at ${venue.venueName}.`}
-        subhead={`A fictional venue, a real GuestFlow widget — themed the way yours would be.`}
+        subhead="The venue is fictional, but the widget is real. This is how GuestFlow would feel themed for your business."
         initialTheme={industry.themeId}
         showThemeSwitcher={false}
       />

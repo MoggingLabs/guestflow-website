@@ -7,38 +7,38 @@ export const industries: IndustryContent[] = [
     themeId: "fine-dining",
     icon: "fork",
     cardBlurb:
-      "Table reservations that feel like an extension of your dining room — not a marketplace tab.",
+      "Table reservations that feel like a natural part of your dining room, not a marketplace tab.",
     hero: {
-      headline: "Your tables. Your guests. Your terms.",
+      headline: "Take reservations on your own website.",
       subhead:
-        "GuestFlow gives restaurants a reservation flow that lives on their own website, carries their brand, and never charges per cover.",
+        "GuestFlow gives restaurants a reservation flow that lives on their own site, carries their brand, and never charges per cover.",
     },
     painPoints: [
       {
         title: "Marketplaces compete for your diners",
-        body: "Booking platforms list you next to your competitors and upsell your guests someone else's table.",
+        body: "Booking platforms list you right next to your competitors, and they're happy to nudge your guests toward someone else's table.",
       },
       {
         title: "Per-cover fees scale against you",
-        body: "Commission models mean your busiest service is your most expensive. Full books shouldn't cost extra.",
+        body: "With commission pricing, a fully booked night is also your most expensive one. The fees quietly eat into your best services.",
       },
       {
         title: "No-shows burn prime slots",
-        body: "Without deposits and smart reminders, Friday eight-tops vanish into thin air.",
+        body: "Without deposits and well-timed reminders, a no-show on a Friday eight-top is revenue you simply never get back.",
       },
     ],
     highlights: [
       {
         title: "Table & turn management",
-        body: "Slot lengths per party size, pacing controls, and dining-room capacity that mirrors how you actually seat.",
+        body: "Slot lengths per party size, pacing controls, and dining-room capacity that match how you actually seat guests.",
       },
       {
         title: "Deposits & card guarantees",
         body: "Protect prime-time covers with deposits or card holds for large parties and special menus.",
       },
       {
-        title: "Guest book you own",
-        body: "Regulars, allergies, anniversaries — your guest intelligence stays in your hands, exportable any day.",
+        title: "A guest book you own",
+        body: "Regulars, allergies, anniversaries — it all stays in your hands, and you can export it whenever you like.",
       },
     ],
     metaDescription:
@@ -62,12 +62,12 @@ export const industries: IndustryContent[] = [
         body: "Online travel agencies charge commissions that dwarf any software cost — and they own the guest's email forever.",
       },
       {
-        title: "Clunky booking engines kill conversion",
-        body: "Generic hotel booking engines feel like airline checkouts. Guests bounce back to the OTA tab.",
+        title: "Clunky booking engines lose guests",
+        body: "Most hotel booking engines feel like airline checkouts, so guests give up halfway and book through the OTA instead.",
       },
       {
         title: "No relationship before arrival",
-        body: "When the OTA owns the booking, your first real contact with a guest is at the front desk.",
+        body: "When the OTA owns the booking, your first real contact with a guest happens at the front desk.",
       },
     ],
     highlights: [
@@ -93,30 +93,30 @@ export const industries: IndustryContent[] = [
     themeId: "spa",
     icon: "leaf",
     cardBlurb:
-      "Treatment bookings as calm as your space — services, practitioners, and schedules handled gracefully.",
+      "Treatment bookings that feel as calm as your space, with services, practitioners, and schedules handled gracefully.",
     hero: {
-      headline: "Booking as serene as the treatment.",
+      headline: "A booking experience as calm as your space.",
       subhead:
-        "Spas and wellness studios get a booking flow that matches the calm of their brand — services, durations, and practitioner schedules without the friction.",
+        "Spas and wellness studios get a booking flow that matches the feel of their brand, with services, durations, and practitioner schedules handled without the friction.",
     },
     painPoints: [
       {
         title: "Phone tag fills your front desk",
-        body: "Every booking taken by phone is staff time lost — and an after-hours enquiry missed entirely.",
+        body: "Every booking taken by phone costs staff time, and enquiries that come in after hours often never get answered at all.",
       },
       {
         title: "Generic salon software, generic feel",
-        body: "Mass-market booking tools look like spreadsheets. Your booking page should feel like your space.",
+        body: "Mass-market booking tools tend to look like spreadsheets. Your booking page should feel like your space does.",
       },
       {
         title: "Late cancellations leave empty rooms",
-        body: "Treatment rooms and practitioner hours are perishable. Unprotected slots expire worthless.",
+        body: "An empty treatment room is revenue you can't get back, and unprotected bookings make late cancellations painless for everyone but you.",
       },
     ],
     highlights: [
       {
         title: "Service & practitioner logic",
-        body: "Durations, prep time, and per-practitioner availability handled cleanly under a serene surface.",
+        body: "Durations, prep time, and per-practitioner availability all handled cleanly behind the scenes.",
       },
       {
         title: "Cancellation protection",
@@ -153,21 +153,21 @@ export const industries: IndustryContent[] = [
       },
       {
         title: "Group bookings handled by email",
-        body: "Private tastings and group tours negotiated over email threads leak revenue and time.",
+        body: "Private tastings and group tours arranged over long email threads take up hours and slip through the cracks more often than anyone admits.",
       },
     ],
     highlights: [
       {
         title: "Capacity-aware sessions",
-        body: "Fixed departures with live seat counts — scarcity shown honestly, overbooking impossible.",
+        body: "Fixed departures with live seat counts, so guests see real availability and you never oversell a session.",
       },
       {
         title: "Direct payment, no commission",
-        body: "Tickets and tastings sold on your site at flat cost, whatever your volume.",
+        body: "Tickets and tastings sold on your own site at a flat cost, whatever your volume.",
       },
       {
         title: "Private & group requests",
-        body: "Structured enquiry flow for buyouts and groups, so big-ticket bookings stop living in your inbox.",
+        body: "A structured enquiry flow for buyouts and groups, so your largest bookings don't get lost in your inbox.",
       },
     ],
     metaDescription:
@@ -183,5 +183,5 @@ export const industriesIndex = {
   eyebrow: "Industries",
   title: "Built for the way you host.",
   subhead:
-    "One booking engine, shaped to the rhythm of your business. Pick your world — the demo on each page is themed to match.",
+    "One booking system, adapted to how your business works. Each page below includes a live demo themed for that type of venue.",
 };

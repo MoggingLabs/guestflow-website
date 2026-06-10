@@ -53,7 +53,7 @@ export const tiers: PricingTier[] = [
 
 export const comparison = {
   title: "What commission really costs",
-  body: "A restaurant seating 1,000 covers a month at €2–3 commission per cover pays €24,000–36,000 a year — for a booking page that isn't even theirs. GuestFlow replaces that with a flat subscription that stays flat on your busiest month of the year.",
+  body: "A restaurant seating 1,000 covers a month at €2–3 commission per cover pays €24,000–36,000 a year, for a booking page that isn't even theirs. GuestFlow replaces that with a flat subscription that stays the same even in your busiest month.",
 };
 
 export const foundingPartner = {

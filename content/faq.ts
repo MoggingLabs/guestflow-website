@@ -24,7 +24,7 @@ export const homeFaq: FaqItem[] = [
   {
     question: "Can it match my brand exactly?",
     answer:
-      "That's the whole point. Colors, typography, copy, and flow are tailored per venue — try the live demo above and switch venue types to see how different the same engine can look.",
+      "Yes — that's the heart of what we do. Colors, typography, copy, and flow are tailored to each venue. Try the live demo above and switch venue types to see how different the same system can look.",
   },
   {
     question: "What happens after I book a demo?",
@@ -55,7 +55,7 @@ export const pricingFaq: FaqItem[] = [
   {
     question: "Is there really no per-booking fee?",
     answer:
-      "Really. Your subscription is flat regardless of volume. We think charging you more for being busy is backwards.",
+      "Really. Your subscription stays flat regardless of how many bookings you take. We don't think you should pay more for being busy.",
   },
   {
     question: "Is there a setup fee?",

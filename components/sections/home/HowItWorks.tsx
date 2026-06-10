@@ -11,7 +11,7 @@ export function HowItWorks() {
           <SectionHeading
             eyebrow="How it works"
             title={howItWorks.title}
-            subhead="Sales-led and concierge-built: you bring the venue, we bring the booking experience."
+            subhead="You bring the venue, and we take care of the rest, from design to installation."
           />
         </Reveal>
         <Reveal stagger className="mt-14 grid gap-10 md:grid-cols-3">
