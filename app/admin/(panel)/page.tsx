@@ -10,7 +10,9 @@ import {
   recentSessions,
   topPages,
   topSources,
+  trackingStatus,
 } from "@/lib/admin/queries";
+import { cn } from "@/lib/utils";
 
 function ago(iso: string): string {
   const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
@@ -28,14 +30,23 @@ export default async function AdminOverviewPage({
 }) {
   const { key, from, to } = parseRange((await searchParams).range);
 
-  const [daily, pages, sources, geo, devs, sessions] = await Promise.all([
-    dailyVisitors(from, to),
-    topPages(from, to),
-    topSources(from, to),
-    countries(from, to),
-    devices(from, to),
-    recentSessions(),
-  ]);
+  const [daily, pages, sources, geo, devs, sessions, tracking] =
+    await Promise.all([
+      dailyVisitors(from, to),
+      topPages(from, to),
+      topSources(from, to),
+      countries(from, to),
+      devices(from, to),
+      recentSessions(),
+      trackingStatus(),
+    ]);
+
+  const lastRealMins = tracking.last_real_event
+    ? Math.round(
+        (Date.now() - new Date(tracking.last_real_event).getTime()) / 60000,
+      )
+    : null;
+  const trackingLive = lastRealMins !== null && lastRealMins < 60;
 
   const totalVisitors = daily.reduce((sum, d) => sum + Number(d.visitors), 0);
   const totalSessions = daily.reduce((sum, d) => sum + Number(d.sessions), 0);
@@ -45,9 +56,24 @@ export default async function AdminOverviewPage({
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-medium text-cream">
-          Overview
-        </h1>
+        <div className="flex items-center gap-4">
+          <h1 className="font-display text-2xl font-medium text-cream">
+            Overview
+          </h1>
+          <span className="flex items-center gap-1.5 text-xs text-cream-faint">
+            <span
+              className={cn(
+                "h-2 w-2 rounded-full",
+                trackingLive ? "bg-success" : "bg-cream-faint",
+              )}
+            />
+            {lastRealMins === null
+              ? "No live visitor events yet"
+              : trackingLive
+                ? `Tracking live, last event ${lastRealMins < 1 ? "just now" : ago(tracking.last_real_event!)}`
+                : `Last visitor event ${ago(tracking.last_real_event!)}`}
+          </span>
+        </div>
         <RangePicker active={key} basePath="/admin" />
       </div>
 

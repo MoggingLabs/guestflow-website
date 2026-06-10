@@ -17,6 +17,10 @@ if (!process.argv.includes("--yes")) {
   process.exit(1);
 }
 
+// `npm run seed -- --yes --clear` wipes demo data without inserting new
+// rows. Run once before going live so the dashboard shows only real data.
+const clearOnly = process.argv.includes("--clear");
+
 // Deterministic PRNG so reruns produce the same shape.
 let seedState = 42;
 function rand(): number {
@@ -61,8 +65,11 @@ function buildEvents(): EventRow[] {
   const now = Date.now();
   const DAY = 86_400_000;
 
+  const todayMidnight = new Date();
+  todayMidnight.setHours(0, 0, 0, 0);
+
   for (let daysAgo = 45; daysAgo >= 0; daysAgo--) {
-    const dayStart = now - daysAgo * DAY;
+    const dayStart = todayMidnight.getTime() - daysAgo * DAY;
     const weekday = new Date(dayStart).getDay();
     const weekendFactor = weekday === 0 || weekday === 6 ? 0.6 : 1;
     const growth = 1 + (45 - daysAgo) / 38; // traffic roughly doubles
@@ -81,9 +88,12 @@ function buildEvents(): EventRow[] {
         ? { source: "instagram", medium: "paid", campaign: "founding-offer" }
         : null;
       let t = dayStart + intBetween(8, 22) * 3_600_000 + intBetween(0, 3_500_000);
+      // Never generate events in the future; today's sessions stop at "now".
+      if (t > now) continue;
       const base = { visitor_id: visitor, session_id: sid, referrer: source, utm, device, browser, os, country };
       const push = (event: string, url_path: string, props: Record<string, string | number | boolean> = {}) => {
-        events.push({ ts: new Date(t), event, props, url_path, ...base });
+        // The seed marker lets real and demo events be told apart in SQL.
+        events.push({ ts: new Date(t), event, props: { ...props, seed: true }, url_path, ...base });
       };
 
       const entry = pick(PAGES, PAGE_WEIGHTS);
@@ -192,6 +202,12 @@ const LEAD_NAMES = [
 async function seed() {
   console.log("Truncating seeded tables…");
   await sql`truncate events, touchpoints, monthly_figures, health_assessments, implementations, clients, leads restart identity cascade`;
+
+  if (clearOnly) {
+    console.log("Cleared. No demo data inserted; the dashboard now shows only real traffic.");
+    await sql.end();
+    return;
+  }
 
   console.log("Inserting events…");
   const events = buildEvents();

@@ -25,31 +25,45 @@ npm run build
 npm run lint
 ```
 
-The site runs fully without env vars; demo-form leads are logged to the
-server console in that mode. For real lead capture, copy `.env.example`
-to `.env.local` and fill in Supabase + Resend keys.
+The site runs fully without env vars; demo-form leads and analytics
+events are logged to the server console in that mode. For real data,
+copy `.env.example` to `.env.local` and set `DATABASE_URL`.
 
-## Lead storage (Supabase)
+## Data: one Postgres, three jobs
 
-Create the `leads` table (RLS on, no public policies — the API route uses
-the service role):
+Everything (leads, first-party analytics events, the client tracker)
+lives in one Postgres database reached via `DATABASE_URL`. The schema is
+defined by the SQL files in `supabase/migrations/`, which apply
+unchanged to local PostgreSQL and to a Supabase project.
 
-```sql
-create table leads (
-  id uuid primary key default gen_random_uuid(),
-  created_at timestamptz not null default now(),
-  name text not null,
-  email text not null,
-  business_name text not null,
-  business_type text not null,
-  preferred_date date,
-  preferred_window text,
-  message text,
-  page_source text,
-  status text not null default 'new'
-);
-alter table leads enable row level security;
-```
+- **Local development:** native PostgreSQL, e.g.
+  `postgres://postgres:postgres@localhost:5432/guestflow`. Apply
+  migrations with `psql -d guestflow -f supabase/migrations/<file>.sql`
+  (in order).
+- **Demo data:** `npm run seed -- --yes` fills the dashboard with 45
+  days of realistic events, leads, and clients. Seeded events carry
+  `props.seed = true` so they can be told apart from real traffic.
+- **Admin dashboard:** `/admin` (default login admin/admin until env
+  vars are set). The Overview header shows a live-tracking heartbeat:
+  the timestamp of the last real (non-seed) visitor event.
+
+## Going live checklist
+
+1. Create a Supabase project and apply the migrations in order
+   (SQL editor or `supabase db push`).
+2. On the host (e.g. Vercel), set `DATABASE_URL` to the Supabase
+   **transaction pooler** connection string (port 6543) — required for
+   serverless, and the client already runs with `prepare: false`.
+3. Set `ADMIN_USER`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` (the
+   admin/admin defaults must never reach production; the panel shows a
+   warning until these are set).
+4. Set `NEXT_PUBLIC_SITE_URL` to the real domain, plus Resend keys if
+   lead emails are wanted.
+5. Wipe the demo data so dashboards show only real traffic:
+   `npm run seed -- --yes --clear` (or run it against production by
+   setting `DATABASE_URL` for that one command).
+6. Visit the live site once, then check `/admin` shows
+   "Tracking live" with a recent timestamp.
 
 ## Project conventions
 
